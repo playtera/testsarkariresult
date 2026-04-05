@@ -1,179 +1,121 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Mail, Bell, Globe, Share2, Plus, Timer, Rocket, Sparkles } from 'lucide-react';
+import { Sparkles, FileText, CheckCircle, GraduationCap } from 'lucide-react';
+import CategoryList from '@/components/CategoryList';
 
-export default function ComingSoon() {
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({
-    days: 15,
-    hours: 24,
-    minutes: 60,
-    seconds: 60
+export default function Home() {
+  const [data, setData] = useState({
+    latestJobs: [],
+    results: [],
+    admitCards: [],
+    other: []
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Simple countdown effect
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-        return prev;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
+    async function fetchData() {
+      try {
+        const res = await fetch('/api/scrape');
+        const json = await res.json();
+        if (json.success && json.data) {
+          setData(json.data);
+        } else {
+          setError(json.error || 'Failed to fetch data');
+        }
+      } catch (err) {
+        console.error("Failed to fetch scraped data", err);
+        setError("Error connecting to the scraper API");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email) {
-      setIsSubmitted(true);
-      setEmail('');
-    }
-  };
-
   return (
-    <div className="coming-soon-container">
-      <div className="animated-bg"></div>
-      
-      <main className="content">
-        <div className="glass-card main-card">
-          <div className="badge-wrapper">
-            <span className="premium-badge">
-              <Sparkles size={14} className="icon-pulse" />
-              Launching Soon
-            </span>
-          </div>
-
+    <div className="home-container">
+      <div className="content">
+        <div className="hero-section glass-card">
           <h1 className="title">
-            Something <span className="text-gradient">Big</span> is <br />
-            Coming Your Way.
+            Your Gateway to <span className="text-gradient">Government Jobs</span>
           </h1>
-          
           <p className="description">
-            We're building the most advanced government job portal in India. 
-            SarkariResultCorner.com is almost ready to redefine your job search experience.
+            Live updates on Sarkari Results, Admit Cards, and New Job Postings directly extracted in real-time.
           </p>
-
-          <div className="countdown-grid">
-            <div className="countdown-item">
-              <span className="number">{timeLeft.days}</span>
-              <span className="label">Days</span>
-            </div>
-            <div className="countdown-item">
-              <span className="number">{timeLeft.hours}</span>
-              <span className="label">Hours</span>
-            </div>
-            <div className="countdown-item">
-              <span className="number">{timeLeft.minutes}</span>
-              <span className="label">Mins</span>
-            </div>
-            <div className="countdown-item">
-              <span className="number">{timeLeft.seconds}</span>
-              <span className="label">Secs</span>
-            </div>
-          </div>
-
-          {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="notify-form">
-              <div className="input-group">
-                <Mail className="input-icon" size={20} />
-                <input 
-                  type="email" 
-                  placeholder="Enter your email for early access..." 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="email-input"
-                  required
-                />
-              </div>
-              <button type="submit" className="btn-notify">
-                <Bell size={18} />
-                Notify Me
-              </button>
-            </form>
-          ) : (
-            <div className="success-message glass-card">
-              <Rocket size={24} className="icon-bounce" />
-              <p>Thanks! You're on the list. We'll be in touch soon.</p>
-            </div>
-          )}
-
-          <div className="social-links">
-            <a href="#" className="social-icon"><Globe size={20} /></a>
-            <a href="#" className="social-icon"><Share2 size={20} /></a>
-            <a href="#" className="social-icon"><Plus size={20} /></a>
-          </div>
         </div>
 
-        <div className="footer-mini">
-          &copy; 2026 SarkariResultCorner.com • All Rights Reserved
-        </div>
-      </main>
+        {loading ? (
+          <div className="loading-state">
+            <Sparkles size={32} className="icon-pulse" style={{ color: '#3b82f6' }} />
+            <p>Scraping the latest data for you...</p>
+          </div>
+        ) : error ? (
+          <div className="error-state">
+            <p>Oops, something went wrong:</p>
+            <p className="error-message">{error}</p>
+          </div>
+        ) : (
+          <div className="dashboard-grid">
+            <CategoryList 
+              title="Latest Jobs" 
+              icon={<FileText size={18} />} 
+              items={data.latestJobs.slice(0, 15) || []} 
+              viewMoreLink="/latest-jobs" 
+              color="primary" 
+            />
+            
+            <CategoryList 
+              title="Admit Cards" 
+              icon={<CheckCircle size={18} />} 
+              items={data.admitCards.slice(0, 15) || []} 
+              viewMoreLink="/admit-cards" 
+              color="warning" 
+            />
+
+            <CategoryList 
+              title="Results" 
+              icon={<GraduationCap size={18} />} 
+              items={data.results.slice(0, 15) || []} 
+              viewMoreLink="/results" 
+              color="success" 
+            />
+          </div>
+        )}
+      </div>
 
       <style jsx>{`
-        .coming-soon-container {
-          min-height: calc(100vh - 160px); /* Adjust for header/footer */
+        .home-container {
           display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          padding: 2rem;
-          overflow: hidden;
-          background: #0a0a0f;
+          flex-direction: column;
           font-family: 'Outfit', sans-serif;
-        }
-
-        .animated-bg {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
-                      radial-gradient(circle at 80% 70%, rgba(79, 70, 229, 0.15) 0%, transparent 40%);
-          z-index: 0;
+          color: white;
         }
 
         .content {
-          position: relative;
-          z-index: 10;
+          flex: 1;
+          padding: 2rem;
+          max-width: 1200px;
+          margin: 0 auto;
           width: 100%;
-          max-width: 800px;
+        }
+
+        .hero-section {
+          padding: 3rem 2rem;
+          border-radius: 1.5rem;
+          margin-bottom: 2rem;
           text-align: center;
-        }
-
-        .main-card {
-          padding: 4rem 2rem;
-          border-radius: 2rem;
-          margin-bottom: 2rem;
           border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .premium-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.5rem 1.25rem;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 999px;
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: #94a3b8;
-          margin-bottom: 2rem;
+          background: rgba(255, 255, 255, 0.03);
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         .title {
-          font-size: clamp(2.5rem, 8vw, 4.5rem);
-          line-height: 1.1;
+          font-size: clamp(2rem, 5vw, 3.5rem);
+          line-height: 1.2;
           font-weight: 800;
-          color: white;
-          margin-bottom: 1.5rem;
-          letter-spacing: -0.04em;
+          margin-bottom: 1rem;
         }
 
         .text-gradient {
@@ -183,163 +125,58 @@ export default function ComingSoon() {
         }
 
         .description {
-          font-size: 1.25rem;
+          font-size: 1.125rem;
           color: #94a3b8;
           max-width: 600px;
-          margin: 0 auto 3rem;
-          line-height: 1.6;
+          margin: 0 auto;
         }
 
-        .countdown-grid {
+        .dashboard-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 1.5rem;
-          max-width: 500px;
-          margin: 0 auto 4rem;
+          align-items: start;
         }
 
-        .countdown-item {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          padding: 1.5rem 1rem;
-          border-radius: 1.5rem;
+        .loading-state, .error-state {
           display: flex;
           flex-direction: column;
           align-items: center;
-        }
-
-        .number {
-          font-size: 2.5rem;
-          font-weight: 800;
-          color: white;
-          line-height: 1;
-          margin-bottom: 0.25rem;
-        }
-
-        .label {
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: #64748b;
-          font-weight: 700;
-        }
-
-        .notify-form {
-          display: flex;
-          gap: 1rem;
-          max-width: 550px;
-          margin: 0 auto 3rem;
-        }
-
-        .input-group {
-          flex: 1;
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-
-        .input-icon {
-          position: absolute;
-          left: 1.25rem;
-          color: #64748b;
-        }
-
-        .email-input {
-          width: 100%;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 1.25rem 1rem 1.25rem 3.5rem;
-          border-radius: 1rem;
-          color: white;
-          font-size: 1rem;
-          transition: all 0.3s ease;
-        }
-
-        .email-input:focus {
-          outline: none;
-          background: rgba(255, 255, 255, 0.08);
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-
-        .btn-notify {
-          background: #2563eb;
-          color: white;
-          padding: 1rem 2rem;
-          border-radius: 1rem;
-          font-weight: 700;
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          transition: all 0.3s ease;
-        }
-
-        .btn-notify:hover {
-          background: #1d4ed8;
-          transform: translateY(-2px);
-          box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
-        }
-
-        .success-message {
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 1rem;
-          color: #4ade80;
-          font-weight: 600;
-          max-width: 400px;
-          margin: 0 auto 3rem;
-        }
-
-        .social-links {
-          display: flex;
           justify-content: center;
-          gap: 1.5rem;
-        }
-
-        .social-icon {
-          width: 45px;
-          height: 45px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 12px;
+          padding: 4rem;
+          gap: 1rem;
           color: #94a3b8;
-          transition: all 0.3s ease;
+          font-size: 1.25rem;
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 1.5rem;
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .social-icon:hover {
-          background: rgba(255, 255, 255, 0.08);
-          color: white;
-          transform: translateY(-3px);
-        }
-
-        .footer-mini {
-          font-size: 0.875rem;
-          color: #475569;
-          font-weight: 500;
+        .error-message {
+          color: #ef4444;
+          font-weight: bold;
         }
 
         .icon-pulse { animation: pulse 2s infinite; }
-        .icon-bounce { animation: bounce 2s infinite; }
 
         @keyframes pulse {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.7; transform: scale(1.1); }
         }
 
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
+        @media (max-width: 1024px) {
+          .dashboard-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
         }
 
         @media (max-width: 768px) {
-          .notify-form { flex-direction: column; }
-          .countdown-grid { grid-template-columns: repeat(2, 1fr); }
-          .title { font-size: 2.5rem; }
+          .dashboard-grid {
+            grid-template-columns: 1fr;
+          }
+          .hero-section {
+            padding: 2rem 1rem;
+          }
         }
       `}</style>
     </div>
