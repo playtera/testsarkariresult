@@ -5,19 +5,14 @@ import { Sparkles, FileText, CheckCircle, GraduationCap } from 'lucide-react';
 import CategoryList from '@/components/CategoryList';
 
 export default function Home() {
-  const [data, setData] = useState({
-    latestJobs: [],
-    results: [],
-    admitCards: [],
-    other: []
-  });
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch('/api/scrape');
+        const res = await fetch('/api/scrape', { cache: 'no-store' });
         const json = await res.json();
         if (json.success && json.data) {
           setData(json.data);
@@ -33,6 +28,24 @@ export default function Home() {
     }
     fetchData();
   }, []);
+
+  const getIconForCategory = (title) => {
+    const t = title.toLowerCase();
+    if (t.includes('job') || t.includes('latest')) return <FileText size={18} />;
+    if (t.includes('admit card')) return <CheckCircle size={18} />;
+    if (t.includes('result')) return <GraduationCap size={18} />;
+    if (t.includes('answer key')) return <FileText size={18} />;
+    return <Sparkles size={18} />;
+  };
+
+  const getColorForCategory = (title) => {
+    const t = title.toLowerCase();
+    if (t.includes('result')) return 'success';
+    if (t.includes('admit card')) return 'warning';
+    if (t.includes('answer key')) return 'info';
+    if (t.includes('admission')) return 'primary';
+    return 'primary';
+  };
 
   return (
     <div className="home-container">
@@ -58,29 +71,16 @@ export default function Home() {
           </div>
         ) : (
           <div className="dashboard-grid">
-            <CategoryList 
-              title="Latest Jobs" 
-              icon={<FileText size={18} />} 
-              items={data.latestJobs.slice(0, 15) || []} 
-              viewMoreLink="/latest-jobs" 
-              color="primary" 
-            />
-            
-            <CategoryList 
-              title="Admit Cards" 
-              icon={<CheckCircle size={18} />} 
-              items={data.admitCards.slice(0, 15) || []} 
-              viewMoreLink="/admit-cards" 
-              color="warning" 
-            />
-
-            <CategoryList 
-              title="Results" 
-              icon={<GraduationCap size={18} />} 
-              items={data.results.slice(0, 15) || []} 
-              viewMoreLink="/results" 
-              color="success" 
-            />
+            {data.map((category, index) => (
+               <CategoryList 
+                 key={index}
+                 title={category.title} 
+                 icon={getIconForCategory(category.title)} 
+                 items={category.items.slice(0, 15)} 
+                 viewMoreLink={`/${category.title.toLowerCase().replace(/\\s+/g, '-')}`} 
+                 color={getColorForCategory(category.title)} 
+               />
+            ))}
           </div>
         )}
       </div>
