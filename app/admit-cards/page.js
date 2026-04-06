@@ -1,8 +1,10 @@
 import React from 'react';
 import * as cheerio from 'cheerio';
-import { ArrowLeft, Clock, Search, MapPin, Tag, CalendarDays } from 'lucide-react';
-import Link from 'next/link';
-import JobCard from '@/components/JobCard';
+import dbConnect from '@/lib/db';
+import SiteCache from '@/models/SiteCache';
+import CategoryPageClientUI from '@/components/CategoryPageClientUI';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Admit Cards 2026 | SarkariResultCorner',
@@ -15,6 +17,18 @@ export default async function AdmitCardsPage() {
   let pageTitle = 'Admit Cards';
 
   try {
+    await dbConnect();
+    const cacheKey = 'page_' + sourceUrl.split('/').filter(Boolean).pop(); // e.g. 'latest-jobs'
+    const cachedEntry = await SiteCache.findOne({ key: cacheKey });
+    const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
+
+    if (cachedEntry && cachedEntry.lastScrapedAt > sixHoursAgo) {
+      console.log(`[PAGE CACHE HIT] ${cacheKey}`);
+      return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={cachedEntry.data.items} />;
+    }
+
+    console.log(`[PAGE CACHE MISS] ${cacheKey} - Scraping...`);
+
     const res = await fetch(sourceUrl, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
       cache: 'no-store'
@@ -106,152 +120,31 @@ export default async function AdmitCardsPage() {
               }
          });
       }
+
+      // CACHE SAVE
+      if (items.length > 0) {
+          await SiteCache.findOneAndUpdate(
+              { key: cacheKey },
+              { key: cacheKey, data: { pageTitle, items }, lastScrapedAt: new Date() },
+              { upsert: true, returnDocument: 'after' }
+          );
+      }
+    } else if (cachedEntry) {
+         console.log(`[PAGE CACHE FALLBACK] ${cacheKey}`);
+         return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={cachedEntry.data.items} />;
     }
   } catch (err) {
     console.error(err);
+    // CRITICAL FALLBACK IF FETCH FAILS BADLY
+    try {
+        const fallbackKey = 'page_' + sourceUrl.split('/').filter(Boolean).pop();
+        const cachedEntry = await SiteCache.findOne({ key: fallbackKey });
+        if (cachedEntry) {
+             console.log(`[PAGE CACHE ERROR FALLBACK] ${fallbackKey}`);
+             return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={cachedEntry.data.items} />;
+        }
+    } catch(e) {}
   }
 
-  // Deduplicate
-  items = items.filter((v, i, a) => a.findIndex(t => t.link === v.link) === i);
-
-  return (
-    <div className="category-page">
-      <div className="wrapper">
-        <div className="page-header glass-card">
-           <Link href="/" className="back-link">
-              <ArrowLeft size={16} /> Back to Dashboard
-           </Link>
-           <h1 className="title">{pageTitle}</h1>
-           <p className="subtitle">Download the most recently published admit cards and interview letters.</p>
-           
-           <div className="search-bar">
-               <Search size={18} className="search-icon"/>
-               <input type="text" placeholder="Search for jobs, boards, or states..." className="search-input" />
-           </div>
-        </div>
-
-        <div className="module-container">
-           {items.length > 0 ? (
-               <div className="job-grid">
-                  {items.map((job, idx) => (
-                      <JobCard
-                         key={idx}
-                         title={job.title}
-                         link={job.link}
-                         lastDate={job.lastDate}
-                         date={job.date}
-                         isNew={job.isNew}
-                         isImportant={idx < 3}
-                      />
-                  ))}
-               </div>
-           ) : (
-               <div className="glass-card empty-state">
-                   <p>No recent job listings could be found or the structure was inaccessible.</p>
-               </div>
-           )}
-        </div>
-      </div>
-
-      <style dangerouslySetInnerHTML={{__html: `
-        .category-page {
-           min-height: 100vh;
-           background: #0a0a0f;
-           font-family: 'Outfit', sans-serif;
-           color: white;
-        }
-        .wrapper {
-           max-width: 1000px;
-           margin: 0 auto;
-           padding: 2rem;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
-            backdrop-filter: blur(10px);
-        }
-        .page-header {
-           margin-bottom: 2rem;
-           text-align: center;
-        }
-        .back-link {
-           display: inline-flex;
-           align-items: center;
-           gap: 0.5rem;
-           color: #94a3b8;
-           text-decoration: none;
-           font-weight: 500;
-           font-size: 0.9rem;
-           transition: color 0.2s;
-           position: absolute;
-           left: 2.5rem;
-           top: 2.5rem;
-        }
-        .back-link:hover {
-           color: #60a5fa;
-        }
-        .title {
-           font-size: 2.5rem;
-           font-weight: 800;
-           margin-bottom: 0.5rem;
-           color: #f8fafc;
-        }
-        .subtitle {
-           color: #94a3b8;
-           margin-bottom: 2rem;
-           font-size: 1.1rem;
-        }
-        .search-bar {
-           max-width: 500px;
-           margin: 0 auto;
-           position: relative;
-        }
-        .search-icon {
-           position: absolute;
-           left: 1.25rem;
-           top: 50%;
-           transform: translateY(-50%);
-           color: #64748b;
-        }
-        .search-input {
-           width: 100%;
-           background: rgba(255, 255, 255, 0.05);
-           border: 1px solid rgba(255, 255, 255, 0.1);
-           border-radius: 999px;
-           padding: 1rem 1rem 1rem 3rem;
-           color: white;
-           font-size: 1rem;
-           transition: all 0.3s;
-        }
-        .search-input:focus {
-           outline: none;
-           border-color: #3b82f6;
-           background: rgba(59, 130, 246, 0.05);
-        }
-        .job-grid {
-           display: flex;
-           flex-direction: column;
-           gap: 0.75rem;
-        }
-        .empty-state {
-           text-align: center;
-           color: #94a3b8;
-           padding: 4rem 2rem;
-        }
-
-        @media (max-width: 768px) {
-           .back-link {
-               position: relative;
-               left: 0;
-               top: 0;
-               margin-bottom: 1rem;
-               display: flex;
-               justify-content: center;
-           }
-        }
-      `}} />
-    </div>
-  );
+  return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={items} />;
 }

@@ -122,7 +122,7 @@ export default function Home() {
             title="Result" 
             icon={<CheckCircle size={20} />} 
             items={currentResults} 
-            viewMoreLink="/results"
+            viewMoreLink="/result"
             color="success"
           />
           <CategoryList 

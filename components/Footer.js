@@ -2,22 +2,26 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Mail, MapPin, Phone, ExternalLink, Globe, Share2, Info, Bell } from 'lucide-react';
 
 const Footer = () => {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
+
+  if (pathname?.startsWith('/admin')) return null;
 
   const footerLinks = {
     company: [
       { name: 'About Us', href: '/about' },
       { name: 'Contact Us', href: '/contact' },
-      { name: 'Privacy Policy', href: '/privacy' },
-      { name: 'Terms & Conditions', href: '/terms' },
+      { name: 'Privacy Policy', href: '/privacy-policy' },
+      { name: 'Terms & Conditions', href: '/disclaimer' },
       { name: 'Disclaimer', href: '/disclaimer' },
     ],
     quickLinks: [
       { name: 'Latest Jobs', href: '/latest-jobs' },
-      { name: 'Results', href: '/results' },
+      { name: 'Results', href: '/result' },
       { name: 'Admit Cards', href: '/admit-cards' },
       { name: 'Answer Key', href: '/answer-key' },
       { name: 'Syllabus', href: '/syllabus' },

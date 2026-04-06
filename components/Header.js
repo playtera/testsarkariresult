@@ -2,11 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X, Search, Briefcase, GraduationCap, FileText, CheckCircle, HelpCircle, Phone, Home } from 'lucide-react';
 
 const Header = () => {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  if (pathname?.startsWith('/admin')) return null;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,7 +23,7 @@ const Header = () => {
   const navLinks = [
     { name: 'Home', href: '/', icon: <Home size={18} /> },
     { name: 'Latest Jobs', href: '/latest-jobs', icon: <Briefcase size={18} /> },
-    { name: 'Results', href: '/results', icon: <CheckCircle size={18} /> },
+    { name: 'Results', href: '/result', icon: <CheckCircle size={18} /> },
     { name: 'Admit Card', href: '/admit-cards', icon: <FileText size={18} /> },
     { name: 'Answer Key', href: '/answer-key', icon: <GraduationCap size={18} /> },
     { name: 'Syllabus', href: '/syllabus', icon: <FileText size={18} /> },

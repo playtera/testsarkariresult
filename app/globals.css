@@ -2,24 +2,24 @@
 
 :root {
   /* Colors */
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --secondary: #64748b;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: #94a3b8;
   --success: #10b981;
   --danger: #ef4444;
   --warning: #f59e0b;
   --info: #0ea5e9;
   
-  /* Backgrounds */
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --card-foreground: #1e293b;
-  --border: #e2e8f0;
+  /* Backgrounds (Dark Mode Default) */
+  --background: #0a0a0f;
+  --foreground: #f8fafc;
+  --card: rgba(255, 255, 255, 0.03);
+  --card-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.08);
   
   /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-bg: rgba(10, 10, 15, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
   --glass-blur: 12px;
   
   /* Spacing */
@@ -137,3 +137,14 @@ button {
     gap: 2rem;
   }
 }
+
+/* CLASSIC SARKARI RESULT DESIGN RULES */
+.sarkari-wrapper { background-color: #ffffff !important; color: #000000 !important; min-height: 100vh; padding: 2rem 0; }
+.sarkari-card { max-width: 900px; margin: 0 auto; background: white; border-top: 5px solid #FF0000; border-bottom: 5px solid #FF0000; border-left: 5px solid #000080; border-right: 5px solid #000080; padding: 0; box-shadow: none; }
+.sarkari-title-box { background-color: #0000FF; color: #ffffff; text-align: center; padding: 12px; font-weight: 900; text-transform: uppercase; font-size: 1.5rem; border-bottom: 2px solid #000080; }
+.sarkari-short-info { padding: 15px; border-bottom: 1px solid #ddd; font-size: 0.95rem; line-height: 1.5; color: #000; }
+.sarkari-short-info strong { color: #FF0000; }
+.sarkari-content-area table { width: 100% !important; border-collapse: collapse !important; margin: 0 !important; }
+.sarkari-content-area table td, .sarkari-content-area table th { border: 1px solid #000000 !important; padding: 5px !important; text-align: center !important; font-size: 1rem !important; color: #000000 !important; }
+.sarkari-content-area b { color: #FF0000 !important; }
+.sarkari-content-area a { color: #0000FF !important; text-decoration: underline !important; font-weight: bold !important; }

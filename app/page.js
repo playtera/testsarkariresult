@@ -47,6 +47,16 @@ export default function Home() {
     return 'primary';
   };
 
+  const getLinkForCategory = (title) => {
+    const t = title.toLowerCase().trim();
+    if (t === 'latest jobs') return '/latest-jobs';
+    if (t === 'result' || t === 'results') return '/result';
+    if (t === 'admit card' || t === 'admit cards') return '/admit-cards';
+    if (t === 'answer key') return '/answer-key';
+    if (t === 'admission') return '/admission';
+    return "/" + t.replace(/\s+/g, '-');
+  };
+
   return (
     <div className="home-container">
       <div className="content">
@@ -72,14 +82,14 @@ export default function Home() {
         ) : (
           <div className="dashboard-grid">
             {data.map((category, index) => (
-               <CategoryList 
-                 key={index}
-                 title={category.title} 
-                 icon={getIconForCategory(category.title)} 
-                 items={category.items.slice(0, 15)} 
-                 viewMoreLink={`/${category.title.toLowerCase().replace(/\\s+/g, '-')}`} 
-                 color={getColorForCategory(category.title)} 
-               />
+              <CategoryList
+                key={index}
+                title={category.title}
+                icon={getIconForCategory(category.title)}
+                items={category.items.slice(0, 15)}
+                viewMoreLink={getLinkForCategory(category.title)}
+                color={getColorForCategory(category.title)}
+              />
             ))}
           </div>
         )}

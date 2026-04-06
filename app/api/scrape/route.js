@@ -1,9 +1,43 @@
 import * as cheerio from 'cheerio';
+import dbConnect from '@/lib/db';
+import SiteCache from '@/models/SiteCache';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
+    let cachedEntry = null;
+    let dbEnabled = false;
+
+    // Optional Database Connection
+    try {
+      await dbConnect();
+      dbEnabled = true;
+    } catch (dbError) {
+      console.warn("[API cache] MongoDB unavailable, skipping cache:", dbError.message);
+    }
+
+    if (dbEnabled) {
+      const cacheKey = 'homepage_links';
+      cachedEntry = await SiteCache.findOne({ key: cacheKey });
+      
+      // Check if cache exists and is newer than 6 hours
+      const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
+      
+      if (cachedEntry && cachedEntry.lastScrapedAt > sixHoursAgo) {
+        console.log("[API cache] Serving scraped data from cache");
+        return Response.json({ 
+          success: true, 
+          count: cachedEntry.data.count, 
+          data: cachedEntry.data.data,
+          cached: true,
+          lastScrapedAt: cachedEntry.lastScrapedAt
+        });
+      }
+    }
+
+    console.log("[API cache] Scraping new data...");
+
     const response = await fetch('https://sarkariresult.com.cm/', {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -11,6 +45,17 @@ export async function GET() {
     });
     
     if (!response.ok) {
+      if (cachedEntry) {
+        console.log("[API cache] Scraping failed, falling back to old cache.");
+        return Response.json({ 
+            success: true, 
+            count: cachedEntry.data.count, 
+            data: cachedEntry.data.data,
+            cached: true,
+            message: 'Fallback to cache due to fetch error',
+            lastScrapedAt: cachedEntry.lastScrapedAt
+        });
+      }
       throw new Error(`Failed to fetch page: ${response.status}`);
     }
     
@@ -19,13 +64,9 @@ export async function GET() {
 
     const data = [];
     const uniqueLinks = new Set();
-    let count = 0;
 
     $('.gb-inside-container').each((i, container) => {
-        // Find the title for this container (e.g. "Latest Job", "Answer Key", "Documents")
         let headingText = $(container).find('.gb-headline').text().trim();
-        
-        // Sometimes the text might be nested or have extra spacing
         if (!headingText) return; 
 
         const categoryData = {
@@ -41,7 +82,6 @@ export async function GET() {
                 const key = `${text}|${href}`;
                 if (!uniqueLinks.has(key)) {
                     uniqueLinks.add(key);
-                    count++;
                     
                     let internalLink = href;
                     try {
@@ -62,17 +102,33 @@ export async function GET() {
             }
         });
 
-        // Only push if there's actually items so we don't have empty grid modules
         if (categoryData.items.length > 0) {
             data.push(categoryData);
         }
     });
 
-    // Fallback if the container mapping failed for some reason
-    // In actual implementation, we might implement a standard <a> scan here.
+    // Update Cache (Only if DB is enabled)
+    if (dbEnabled) {
+      const cacheKey = 'homepage_links';
+      try {
+        await SiteCache.findOneAndUpdate(
+            { key: cacheKey },
+            { 
+                key: cacheKey,
+                data: { count: uniqueLinks.size, data },
+                lastScrapedAt: new Date()
+            },
+            { upsert: true }
+        );
+        console.log("[API cache] Data scraped and cached successfully.");
+      } catch (cacheErr) {
+        console.error("[API cache] Failed to update cache:", cacheErr.message);
+      }
+    }
 
-    return Response.json({ success: true, count: uniqueLinks.size, data });
+    return Response.json({ success: true, count: uniqueLinks.size, data, cached: false });
   } catch (error) {
+    console.error("[API scraper] Critical failure:", error.message);
     return Response.json({ success: false, error: error.message }, { status: 500 });
   }
 }
