@@ -84,11 +84,16 @@ const Header = () => {
           display: flex;
           align-items: center;
           gap: 0.5rem;
+          transition: transform 0.2s ease;
+        }
+        .logo-container:hover {
+          transform: scale(1.03);
         }
         .logo-img {
-          height: 50px;
+          height: 60px;
           width: auto;
           display: block;
+          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
         .nav-list {
           display: flex;
@@ -97,10 +102,12 @@ const Header = () => {
         }
         .nav-link {
           font-size: 0.9375rem;
-          font-weight: 500;
+          font-weight: 600;
           color: var(--secondary);
           padding: 0.5rem 0.25rem;
           position: relative;
+          text-transform: uppercase;
+          letter-spacing: 0.02em;
         }
         .nav-link:hover {
           color: var(--primary);
@@ -111,9 +118,10 @@ const Header = () => {
           bottom: 0;
           left: 0;
           width: 0;
-          height: 2px;
+          height: 3px;
           background: var(--primary);
           transition: width 0.3s ease;
+          border-radius: 2px;
         }
         .nav-link:hover::after {
           width: 100%;
@@ -128,17 +136,19 @@ const Header = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 0.5rem;
+          padding: 0.6rem;
           border-radius: 9999px;
-          transition: background 0.2s;
+          transition: all 0.2s;
         }
         .search-btn:hover {
-          background: var(--border);
+          background: var(--primary-light);
           color: var(--primary);
+          transform: translateY(-1px);
         }
         .mobile-menu-btn {
           display: none;
           color: var(--foreground);
+          padding: 0.5rem;
         }
         
         .mobile-nav-overlay {
