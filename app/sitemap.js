@@ -1,4 +1,20 @@
-export default function sitemap() {
+import { client } from '@/lib/sanity/client';
+import { groq } from 'next-sanity';
+
+export default async function sitemap() {
+  // Fetch all published posts from Sanity
+  const posts = await client.fetch(groq`*[_type == "post" && defined(slug.current)] {
+    "slug": slug.current,
+    _updatedAt
+  }`);
+
+  const postEntries = posts.map((post) => ({
+    url: `https://sarkariresultcorner.com/${post.slug}`,
+    lastModified: new Date(post._updatedAt),
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
   return [
     {
       url: 'https://sarkariresultcorner.com',
@@ -6,6 +22,6 @@ export default function sitemap() {
       changeFrequency: 'daily',
       priority: 1,
     },
-
-  ]
+    ...postEntries,
+  ];
 }
