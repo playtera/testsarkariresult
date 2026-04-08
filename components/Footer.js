@@ -16,7 +16,7 @@ const Footer = () => {
       { name: 'About Us', href: '/about' },
       { name: 'Contact Us', href: '/contact' },
       { name: 'Privacy Policy', href: '/privacy-policy' },
-      { name: 'Terms & Conditions', href: '/disclaimer' },
+      { name: 'Terms & Conditions', href: '/terms-and-conditions' },
       { name: 'Disclaimer', href: '/disclaimer' },
     ],
     quickLinks: [

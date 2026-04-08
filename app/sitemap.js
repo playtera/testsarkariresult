@@ -22,6 +22,36 @@ export default async function sitemap() {
       changeFrequency: 'daily',
       priority: 1,
     },
+    {
+      url: 'https://sarkariresultcorner.com/about',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://sarkariresultcorner.com/contact',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://sarkariresultcorner.com/privacy-policy',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://sarkariresultcorner.com/terms-and-conditions',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://sarkariresultcorner.com/disclaimer',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
     ...postEntries,
   ];
 }
