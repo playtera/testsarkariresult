@@ -1,0 +1,56 @@
+.seoContentWrapper {
+  margin-top: 4rem;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.seoInner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.seoInner h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 2rem;
+  line-height: 1.3;
+  background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.seoInner h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #60a5fa;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+}
+
+.seoInner h4 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.seoInner p {
+  margin-bottom: 1.5rem;
+  color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+  .seoContentWrapper {
+    padding: 2rem 1.5rem;
+    margin-top: 2rem;
+  }
+  .seoInner h2 { font-size: 1.75rem; }
+  .seoInner h3 { font-size: 1.5rem; }
+}

@@ -1,3 +1,5 @@
+import { SmartTags } from '../components/SmartTags'
+
 export default {
   name: 'seo',
   title: 'SEO & Social',
@@ -23,21 +25,27 @@ export default {
       title: 'Keywords',
       type: 'array',
       of: [{ type: 'string' }],
+      components: {
+        input: SmartTags
+      },
       options: {
         layout: 'tags'
       }
     },
     {
       name: 'ogImage',
-      title: 'Open Graph Image',
+      title: 'Open Graph Image (Social Media)',
       type: 'image',
-      description: 'The image shown when the page is shared on social media.'
+      description: 'Optional. If left empty, the website will automatically use the Main Image of the post.',
+      options: {
+        hotspot: true
+      }
     },
     {
       name: 'canonicalUrl',
       title: 'Canonical URL',
       type: 'url',
-      description: 'The primary URL for this page (helps avoid duplicate content).'
+      description: 'Optional. If left empty, the website will automatically generate it using your slug (e.g. https://sarkariresultcorner.com/your-slug).'
     }
   ]
 }

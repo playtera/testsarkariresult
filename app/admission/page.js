@@ -1,10 +1,15 @@
 import React from 'react';
 import * as cheerio from 'cheerio';
+import AdmissionSEO from '@/components/AdmissionSEO';
 import CategoryPageClientUI from '@/components/CategoryPageClientUI';
 
 export const metadata = {
-  title: 'Admissions 2026 | SarkariResultCorner',
-  description: 'View the latest university admissions, entrance exams, and college counseling updates.',
+  title: 'Admissions 2026 - Entrance Exams & College Counseling | SarkariResultCorner',
+  description: 'Stay updated with the latest university admissions 2026, entrance exam notifications (CUET, JEE, NEET), and college counseling cycles at SarkariResultCorner.com.',
+  keywords: 'Admission 2026, Entrance Exam, CUET 2026, University Admission, College Counseling, Entrance Result',
+  alternates: {
+    canonical: 'https://sarkariresultcorner.com/admission',
+  }
 };
 
 export default async function AdmissionPage() {
@@ -109,5 +114,5 @@ export default async function AdmissionPage() {
     console.error(err);
   }
 
-  return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Discovering newly opened entrance exams and university admissions." items={items} />;
+  return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Discovering newly opened entrance exams and university admissions." items={items} seoContent={<AdmissionSEO />} />;
 }

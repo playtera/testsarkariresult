@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# admin post
+/app/adminpost
+/app/api/get-html
+
+# scratch
+scratch/

@@ -2,13 +2,18 @@ import React from 'react';
 import * as cheerio from 'cheerio';
 import dbConnect from '@/lib/db';
 import SiteCache from '@/models/SiteCache';
+import LatestJobsSEO from '@/components/LatestJobsSEO';
 import CategoryPageClientUI from '@/components/CategoryPageClientUI';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Latest Jobs 2026 | SarkariResultCorner',
-  description: 'Find all the latest government jobs, recruitment notifications, and online forms for 2026.',
+  title: 'Latest Government Jobs 2026 - Official Vacancy Notifications | SarkariResultCorner',
+  description: 'Find all the latest government jobs, recruitment notifications, and online forms for 2026 at SarkariResultCorner.com. Accurate details on SSC, Railway, Banking, and State jobs.',
+  keywords: 'Latest Jobs 2026, Sarkari Result, Sarkari Exam, Govt Jobs, Online Form 2026, Job Recruitment',
+  alternates: {
+    canonical: 'https://sarkariresultcorner.com/latest-jobs',
+  }
 };
 
 export default async function LatestJobsPage() {
@@ -24,7 +29,7 @@ export default async function LatestJobsPage() {
 
     if (cachedEntry && cachedEntry.lastScrapedAt > sixHoursAgo) {
       console.log(`[PAGE CACHE HIT] ${cacheKey}`);
-      return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Browsing the most recently updated government job applications." items={cachedEntry.data.items} />;
+      return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Browsing the most recently updated government job applications." items={cachedEntry.data.items} seoContent={<LatestJobsSEO />} />;
     }
 
     console.log(`[PAGE CACHE MISS] ${cacheKey} - Scraping...`);
@@ -131,7 +136,7 @@ export default async function LatestJobsPage() {
       }
     } else if (cachedEntry) {
          console.log(`[PAGE CACHE FALLBACK] ${cacheKey}`);
-         return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Browsing the most recently updated government job applications." items={cachedEntry.data.items} />;
+         return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Browsing the most recently updated government job applications." items={cachedEntry.data.items} seoContent={<LatestJobsSEO />} />;
     }
   } catch (err) {
     console.error(err);
@@ -141,10 +146,10 @@ export default async function LatestJobsPage() {
         const cachedEntry = await SiteCache.findOne({ key: fallbackKey });
         if (cachedEntry) {
              console.log(`[PAGE CACHE ERROR FALLBACK] ${fallbackKey}`);
-             return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Browsing the most recently updated government job applications." items={cachedEntry.data.items} />;
+             return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Browsing the most recently updated government job applications." items={cachedEntry.data.items} seoContent={<LatestJobsSEO />} />;
         }
     } catch(e) {}
   }
 
-  return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Browsing the most recently updated government job applications." items={items} />;
+  return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Browsing the most recently updated government job applications." items={items} seoContent={<LatestJobsSEO />} />;
 }

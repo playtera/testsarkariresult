@@ -3,14 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Search, Briefcase, GraduationCap, FileText, CheckCircle, HelpCircle, Phone, Home } from 'lucide-react';
+import { Menu, X, Search, Briefcase, GraduationCap, FileText, CheckCircle, Home, Send, Bell } from 'lucide-react';
 
 const Header = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  if (pathname?.startsWith('/admin')) return null;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,9 +18,11 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (pathname?.startsWith('/admin')) return null;
+
   const navLinks = [
     { name: 'Home', href: '/', icon: <Home size={18} /> },
-    { name: 'Latest Jobs', href: '/latest-jobs', icon: <Briefcase size={18} /> },
+    { name: 'Jobs', href: '/latest-jobs', icon: <Briefcase size={18} /> },
     { name: 'Results', href: '/result', icon: <CheckCircle size={18} /> },
     { name: 'Admit Card', href: '/admit-cards', icon: <FileText size={18} /> },
     { name: 'Answer Key', href: '/answer-key', icon: <GraduationCap size={18} /> },
@@ -30,195 +30,349 @@ const Header = () => {
   ];
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'glass py-2 shadow-md' : 'bg-transparent py-4'}`}>
-      <div className="container flex-between">
-        <Link href="/" className="logo-container">
-          <img src="/logo.png" alt="SarkariResultCorner.com" className="logo-img" />
+    <header className={`header-main transition-all duration-500 ${scrolled ? 'header-scrolled' : ''}`}>
+      <div className="container header-content">
+        <Link href="/" className="logo-area">
+          <div className="logo-glow"></div>
+          <img src="/logo.png" alt="SarkariResultCorner.com" className="site-logo" />
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="desktop-nav">
-          <ul className="nav-list">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <Link href={link.href} className="nav-link">
-                  {link.name}
-                </Link>
-              </li>
-            ))}
+        <nav className="desktop-navigation">
+          <ul className="nav-links">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <li key={link.name} className="nav-li">
+                  <Link href={link.href} className={`nav-link-modern ${isActive ? 'active' : ''}`}>
+                    <span className="nav-text">{link.name}</span>
+                    {isActive && <div className="active-dot"></div>}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
         <div className="header-actions">
-          <button className="search-btn" aria-label="Search">
-            <Search size={22} />
+          <button className="icon-action-btn search-trigger" aria-label="Search">
+            <Search size={20} />
           </button>
-          <button className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+
+          <button className="icon-action-btn notify-btn" aria-label="Notifications">
+            <Bell size={20} />
+            <span className="notify-badge"></span>
+          </button>
+
+          <a href="https://t.me/sarkariresult" target="_blank" rel="noopener noreferrer" className="premium-cta-btn">
+            <Send size={16} className="cta-icon" />
+            <span>Join Telegram</span>
+          </a>
+
+          <button className="mobile-menu-trigger" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Menu">
+            {isOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Nav */}
-      <div className={`mobile-nav-overlay ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(false)}>
-        <nav className="mobile-nav" onClick={(e) => e.stopPropagation()}>
-          <div className="mobile-nav-header">
-            <img src="/logo.png" alt="SarkariResultCorner.com" className="logo-img-mobile" />
-            <button onClick={() => setIsOpen(false)}><X size={24} /></button>
+      {/* Mobile Navigation */}
+      <div className={`mobile-overlay ${isOpen ? 'show' : ''}`} onClick={() => setIsOpen(false)}>
+        <nav className="mobile-drawer glass" onClick={(e) => e.stopPropagation()}>
+          <div className="mobile-drawer-header">
+            <img src="/logo.png" alt="SarkariResultCorner.com" className="drawer-logo" />
+            <button className="close-drawer" onClick={() => setIsOpen(false)}><X size={24} /></button>
           </div>
-          <ul className="mobile-nav-list">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <Link href={link.href} className="mobile-nav-link" onClick={() => setIsOpen(false)}>
-                  <span className="nav-icon">{link.icon}</span>
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+
+          <div className="drawer-scroll-area">
+            <ul className="drawer-menu">
+              {navLinks.map((link, idx) => (
+                <li key={link.name} style={{ animationDelay: `${idx * 0.1}s` }} className={isOpen ? 'animate-in' : ''}>
+                  <Link href={link.href} className={`drawer-item ${pathname === link.href ? 'active' : ''}`} onClick={() => setIsOpen(false)}>
+                    <span className="item-icon">{link.icon}</span>
+                    <span className="item-name">{link.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="drawer-footer">
+            <p className="drawer-caption">Get instant updates on Telegram</p>
+            <a href="https://t.me/sarkariresult" className="drawer-cta">
+              <Send size={18} /> Join Now
+            </a>
+          </div>
         </nav>
       </div>
 
       <style jsx>{`
-        .logo-container {
+        .header-main {
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+          padding: 1.25rem 0;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          background: transparent;
+        }
+        .header-scrolled {
+          padding: 0.75rem 0;
+          background: rgba(10, 10, 15, 0.85);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+        .header-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 2rem;
+        }
+        .logo-area {
+          position: relative;
           display: flex;
           align-items: center;
-          gap: 0.5rem;
-          transition: transform 0.2s ease;
+          transition: transform 0.3s ease;
         }
-        .logo-container:hover {
-          transform: scale(1.03);
+        .logo-area:hover {
+          transform: scale(1.02);
         }
-        .logo-img {
-          height: 60px;
+        .logo-glow {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: var(--primary);
+          filter: blur(25px);
+          opacity: 0.15;
+          z-index: -1;
+        }
+        .site-logo {
+          height: 40px;
           width: auto;
           display: block;
-          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
-        .nav-list {
+        
+        /* Desktop Navigation */
+        .desktop-navigation {
+          flex: 1;
+        }
+        .nav-links {
           display: flex;
           list-style: none;
-          gap: 1.5rem;
+          gap: 0.5rem;
+          margin: 0;
+          padding: 0;
+          justify-content: center;
         }
-        .nav-link {
-          font-size: 0.9375rem;
-          font-weight: 600;
-          color: var(--secondary);
-          padding: 0.5rem 0.25rem;
+        .nav-link-modern {
           position: relative;
+          padding: 0.6rem 1.25rem;
+          color: rgba(255, 255, 255, 0.7);
+          font-family: 'Outfit', sans-serif;
+          font-weight: 600;
+          font-size: 0.85rem;
           text-transform: uppercase;
-          letter-spacing: 0.02em;
+          letter-spacing: 0.03em;
+          border-radius: 99px;
+          transition: all 0.3s ease;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
-        .nav-link:hover {
+        .nav-link-modern:hover {
+          color: white;
+          background: rgba(255, 255, 255, 0.05);
+        }
+        .nav-link-modern.active {
           color: var(--primary);
+          background: rgba(59, 130, 246, 0.1);
         }
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 0;
-          height: 3px;
+        .active-dot {
+          width: 4px;
+          height: 4px;
           background: var(--primary);
-          transition: width 0.3s ease;
-          border-radius: 2px;
+          border-radius: 50%;
+          position: absolute;
+          bottom: 2px;
+          box-shadow: 0 0 8px var(--primary);
         }
-        .nav-link:hover::after {
-          width: 100%;
-        }
+
         .header-actions {
           display: flex;
           align-items: center;
           gap: 1rem;
         }
-        .search-btn {
-          color: var(--secondary);
+        .icon-action-btn {
+          width: 42px;
+          height: 42px;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 0.6rem;
-          border-radius: 9999px;
-          transition: all 0.2s;
+          border-radius: 12px;
+          color: rgba(255, 255, 255, 0.8);
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          transition: all 0.3s ease;
+          position: relative;
         }
-        .search-btn:hover {
-          background: var(--primary-light);
-          color: var(--primary);
-          transform: translateY(-1px);
+        .icon-action-btn:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: white;
+          border-color: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
         }
-        .mobile-menu-btn {
+        .notify-badge {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          width: 8px;
+          height: 8px;
+          background: var(--danger);
+          border-radius: 50%;
+          border: 2px solid #0a0a0f;
+        }
+
+        .premium-cta-btn {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.75rem 1.5rem;
+          background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+          color: white;
+          border-radius: 14px;
+          font-weight: 700;
+          font-size: 0.85rem;
+          text-transform: uppercase;
+          letter-spacing: 0.02em;
+          box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+          transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .premium-cta-btn:hover {
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 12px 25px rgba(59, 130, 246, 0.5);
+        }
+        .cta-icon {
+          animation: float 2s ease-in-out infinite;
+        }
+        @keyframes float {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(2px, -2px); }
+        }
+
+        .mobile-menu-trigger {
           display: none;
-          color: var(--foreground);
-          padding: 0.5rem;
+          color: white;
+          z-index: 1001;
         }
-        
-        .mobile-nav-overlay {
+
+        /* Mobile Nav Styles */
+        .mobile-overlay {
           position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.4);
-          z-index: 100;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(8px);
+          z-index: 2000;
           opacity: 0;
           visibility: hidden;
-          transition: all 0.3s ease;
+          transition: all 0.4s ease;
         }
-        .mobile-nav-overlay.open {
+        .mobile-overlay.show {
           opacity: 1;
           visibility: visible;
         }
-        .mobile-nav {
+        .mobile-drawer {
           position: absolute;
-          top: 0;
-          right: -100%;
-          width: 80%;
-          max-width: 320px;
-          height: 100%;
-          background: var(--card);
-          padding: 2rem;
-          transition: right 0.3s ease;
-          box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
-        }
-        .mobile-nav-overlay.open .mobile-nav {
           right: 0;
+          top: 0;
+          width: 85%;
+          max-width: 340px;
+          height: 100%;
+          background: rgba(15, 23, 42, 0.95);
+          display: flex;
+          flex-direction: column;
+          transform: translateX(100%);
+          transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .mobile-nav-header {
+        .mobile-overlay.show .mobile-drawer {
+          transform: translateX(0);
+        }
+        .mobile-drawer-header {
+          padding: 2rem;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 2.5rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .logo-img-mobile {
-          height: 40px;
-          width: auto;
-          display: block;
+        .drawer-logo {
+          height: 32px;
         }
-        .mobile-nav-list {
+        .drawer-scroll-area {
+          flex: 1;
+          padding: 2rem;
+          overflow-y: auto;
+        }
+        .drawer-menu {
           list-style: none;
+          padding: 0;
           display: flex;
           flex-direction: column;
           gap: 1rem;
         }
-        .mobile-nav-link {
+        .drawer-item {
           display: flex;
           align-items: center;
           gap: 1rem;
+          padding: 1rem;
+          color: rgba(255, 255, 255, 0.8);
           font-size: 1.125rem;
           font-weight: 600;
-          padding: 0.75rem 0;
-          border-bottom: 1px solid var(--border);
+          border-radius: 12px;
+          transition: all 0.2s;
         }
-        .nav-icon {
+        .drawer-item.active {
+          background: rgba(59, 130, 246, 0.15);
           color: var(--primary);
         }
+        .animate-in {
+          animation: slideIn 0.5s forwards;
+          opacity: 0;
+        }
+        @keyframes slideIn {
+          from { transform: translateX(30px); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        .drawer-footer {
+          padding: 2rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          text-align: center;
+        }
+        .drawer-caption {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.5);
+          margin-bottom: 1rem;
+        }
+        .drawer-cta {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          padding: 1rem;
+          background: var(--primary);
+          color: white;
+          border-radius: 12px;
+          font-weight: 700;
+        }
 
-        @media (max-width: 1023px) {
-          .desktop-nav {
-            display: none;
-          }
-          .mobile-menu-btn {
-            display: flex;
-          }
+        @media (max-width: 1100px) {
+          .site-logo { height: 32px; }
+          .nav-link-modern { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+        }
+
+        @media (max-width: 1024px) {
+          .desktop-navigation { display: none; }
+          .mobile-menu-trigger { display: block; }
+          .premium-cta-btn { display: none; }
+          .search-trigger { display: none; }
         }
       `}</style>
     </header>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, Search } from 'lucide-react';
 import JobCard from '@/components/JobCard';
 
-export default function CategoryPageClientUI({ pageTitle, subtitle, items }) {
+export default function CategoryPageClientUI({ pageTitle, subtitle, items, seoContent }) {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Filter logic: match title roughly against searchTerm
@@ -60,6 +60,13 @@ export default function CategoryPageClientUI({ pageTitle, subtitle, items }) {
                </div>
            )}
         </div>
+
+        {/* SEO Rich Content Section */}
+        {seoContent && (
+          <div className="category-seo-section">
+            {seoContent}
+          </div>
+        )}
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `

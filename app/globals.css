@@ -9,25 +9,26 @@
   --danger: #ef4444;
   --warning: #f59e0b;
   --info: #0ea5e9;
-  
+
   /* Backgrounds (Dark Mode Default) */
   --background: #0a0a0f;
   --foreground: #f8fafc;
   --card: rgba(255, 255, 255, 0.03);
   --card-foreground: #ffffff;
   --border: rgba(255, 255, 255, 0.08);
-  
+
   /* Glassmorphism */
-  --glass-bg: rgba(10, 10, 15, 0.7);
+  --glass-bg: rgba(15, 23, 42, 0.7);
   --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: 12px;
-  
+  --glass-blur: 16px;
+
   /* Spacing */
-  --radius: 0.75rem;
+  --radius: 1rem;
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 [data-theme='dark'] {
@@ -36,7 +37,7 @@
   --card: #1e293b;
   --card-foreground: #f1f5f9;
   --border: #334155;
-  
+
   --glass-bg: rgba(15, 23, 42, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
 }
@@ -48,7 +49,8 @@
   margin: 0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   font-family: 'Inter', sans-serif;
   color: var(--foreground);
@@ -57,10 +59,132 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+  text-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+}
+
+h2 {
+  font-size: 2.25rem;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), transparent);
+  border-radius: 2px;
+}
+
+h3 {
+  font-size: 1.75rem;
+  color: #60a5fa;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+/* Custom Selection & Scrollbar */
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 2px solid var(--background);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Horizontal List Styling (Premium Dots) - Scoped to content areas */
+.sarkari-content-area ul,
+.sarkari-content-area ol,
+.sarkari-short-info ul,
+.sarkari-short-info ol {
+  margin: 1.5rem 0;
+  padding-left: 0.5rem;
+  list-style: none;
+}
+
+.sarkari-content-area li,
+.sarkari-short-info li {
+  position: relative;
+  margin-bottom: 0.75rem;
+  padding-left: 2rem;
+  line-height: 1.7;
+  color: var(--secondary);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sarkari-content-area li::before,
+.sarkari-short-info li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 10px;
+  height: 10px;
+  background: var(--primary);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  box-shadow: 0 0 15px var(--primary);
+  opacity: 0.5;
+  transition: all 0.4s ease;
+}
+
+.sarkari-content-area li:hover,
+.sarkari-short-info li:hover {
+  color: var(--foreground);
+  transform: translateX(12px) scale(1.02);
+}
+
+.sarkari-content-area li:hover::before,
+.sarkari-short-info li:hover::before {
+  opacity: 1;
+  transform: scale(1.3) rotate(180deg);
+  background: #60a5fa;
+}
+
+/* Modern Highlights */
+.highlight {
+  color: var(--primary);
+  font-weight: 700;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 a {
@@ -89,6 +213,18 @@ button {
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
 }
 
 .card {
@@ -125,26 +261,497 @@ button {
   text-transform: uppercase;
 }
 
-.badge-new { background-color: var(--success); color: white; }
-.badge-hot { background-color: var(--danger); color: white; }
-.badge-info { background-color: var(--info); color: white; }
+.badge-new {
+  background-color: var(--success);
+  color: white;
+}
 
-/* Desktop version layout tweaks */
-@media (min-width: 1024px) {
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2rem;
+.badge-hot {
+  background-color: var(--danger);
+  color: white;
+}
+
+.badge-info {
+  background-color: var(--info);
+  color: white;
+}
+
+/* MODERNIZED SARKARI RESULT DESIGN */
+.sarkari-wrapper {
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+  padding: 3rem 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .sarkari-wrapper {
+    padding: 1rem 0.25rem;
   }
 }
 
-/* CLASSIC SARKARI RESULT DESIGN RULES */
-.sarkari-wrapper { background-color: #ffffff !important; color: #000000 !important; min-height: 100vh; padding: 2rem 0; }
-.sarkari-card { max-width: 900px; margin: 0 auto; background: white; border-top: 5px solid #FF0000; border-bottom: 5px solid #FF0000; border-left: 5px solid #000080; border-right: 5px solid #000080; padding: 0; box-shadow: none; }
-.sarkari-title-box { background-color: #0000FF; color: #ffffff; text-align: center; padding: 12px; font-weight: 900; text-transform: uppercase; font-size: 1.5rem; border-bottom: 2px solid #000080; }
-.sarkari-short-info { padding: 15px; border-bottom: 1px solid #ddd; font-size: 0.95rem; line-height: 1.5; color: #000; }
-.sarkari-short-info strong { color: #FF0000; }
-.sarkari-content-area table { width: 100% !important; border-collapse: collapse !important; margin: 0 !important; }
-.sarkari-content-area table td, .sarkari-content-area table th { border: 1px solid #000000 !important; padding: 5px !important; text-align: center !important; font-size: 1rem !important; color: #000000 !important; }
-.sarkari-content-area b { color: #FF0000 !important; }
-.sarkari-content-area a { color: #0000FF !important; text-decoration: underline !important; font-weight: bold !important; }
+.sarkari-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 0;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  position: relative;
+}
+
+.sarkari-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f87171 0%, #3b82f6 100%);
+  z-index: 10;
+}
+
+.sarkari-title-box {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
+  color: #ffffff;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sarkari-title-box h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  margin: 0;
+}
+
+.sarkari-short-info {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--secondary);
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.sarkari-short-info strong {
+  color: #f87171;
+  font-weight: 700;
+}
+
+.sarkari-content-area {
+  padding: 1.5rem;
+}
+
+.sarkari-content-area table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 2rem 0 !important;
+  border: 1px solid var(--border) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease;
+  backdrop-filter: blur(8px);
+}
+
+.sarkari-content-area table:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.sarkari-content-area table td,
+.sarkari-content-area table th {
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  padding: 15px 20px !important;
+  text-align: center !important;
+  font-size: 0.95rem !important;
+  color: var(--foreground) !important;
+  transition: background 0.3s ease;
+}
+
+.sarkari-content-area table th {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(37, 99, 235, 0.15)) !important;
+  color: #fff !important;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem !important;
+  border-bottom: 2px solid var(--primary) !important;
+}
+
+.sarkari-content-area table tr:hover td {
+  background: rgba(59, 130, 246, 0.05) !important;
+}
+
+.sarkari-content-area strong {
+  color: #60a5fa !important;
+}
+
+.sarkari-content-area a {
+  color: var(--primary) !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+}
+
+/* Ensure non-table text elements are left-aligned for readability */
+.sarkari-content-area p,
+.sarkari-content-area li,
+.sarkari-content-area h1:not(.sarkari-title-box h1),
+.sarkari-content-area h2,
+.sarkari-content-area h3,
+.sarkari-content-area h4,
+.sarkari-content-area h5,
+.sarkari-content-area div:not(.table-wrapper):not(.sarkari-title-box) {
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+.sarkari-content-area li {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem; /* Adjusted for better bullet spacing */
+  list-style-position: inside;
+}
+
+/* THEME OVERRIDE: Strip legacy colors from scraping */
+.sarkari-content-area div,
+.sarkari-content-area table,
+.sarkari-content-area section {
+  background-color: transparent !important;
+  border-color: var(--border) !important;
+}
+
+.sarkari-content-area [style*="background"] {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 1rem !important;
+}
+
+/* Breadcumb */
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.breadcrumb-nav a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.breadcrumb-nav .current-post {
+  color: #f87171;
+  font-weight: 600;
+}
+
+/* Featured Image */
+.featured-image-wrapper {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--border);
+}
+
+.featured-image {
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Suggestion Box */
+.suggestion-box {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  background: linear-gradient(90deg, rgba(248, 113, 113, 0.05), transparent);
+  flex-wrap: wrap;
+}
+
+.suggestion-tag {
+  background: #f87171;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.suggestion-link {
+  color: var(--primary) !important;
+  font-weight: 700 !important;
+}
+
+/* Bottom Nav */
+.bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: rgba(59, 130, 246, 0.1);
+  border-top: 1px solid var(--border);
+}
+
+.bottom-nav-link {
+  padding: 1.25rem 1rem;
+  color: var(--foreground);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+
+.bottom-nav-link:last-child {
+  border-right: none;
+}
+
+.bottom-nav-link:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* NUCLEAR MOBILE FIXES */
+@media (max-width: 991px) {
+
+  html,
+  body {
+    overflow-x: hidden !important;
+    width: 100%;
+  }
+
+  .sarkari-wrapper {
+    padding: 0.5rem !important;
+    overflow-x: hidden !important;
+  }
+
+  .sarkari-card {
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0.5rem !important;
+  }
+
+  .sarkari-content-area,
+  .sarkari-content-area * {
+    max-width: 100% !important;
+  }
+
+  .sarkari-content-area table,
+  .sarkari-content-area thead,
+  .sarkari-content-area tbody {
+    display: block !important;
+    width: 100% !important;
+    border: none !important;
+  }
+
+  /* Target rows with 2 or fewer cells for the card-style grid layout */
+  .sarkari-content-area tr:not(:has(td:nth-child(3))) {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0 !important;
+    margin-bottom: 1.5rem !important;
+    border: 1px solid var(--border) !important;
+    background: var(--card) !important;
+    border-radius: 1rem !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+
+  /* MODERNISED SARKARI TABLE - MOBILE HYBRID LAYOUT */
+  .sarkari-content-area table,
+  .sarkari-content-area thead,
+  .sarkari-content-area tbody {
+    display: block !important;
+    width: 100% !important;
+    border: none !important;
+  }
+
+  /* Target all rows for basic grid structure, refined per cell count below */
+  .sarkari-content-area tr {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0 !important;
+    margin-bottom: 2rem !important;
+    border: 1px solid var(--border) !important;
+    background: var(--card) !important;
+    border-radius: 1.25rem !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(12px) !important;
+    position: relative !important;
+  }
+
+  /* Hybrid Layout: Title & Count in 2 columns, Eligibility in Full Width */
+  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(1),
+  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(2) {
+    grid-column: span 1 !important;
+    border-bottom: 1px solid var(--border) !important;
+    background: rgba(59, 130, 246, 0.05) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.02em !important;
+    white-space: normal !important; /* Fixed: Allow wrapping for 50/50 balance */
+    flex-direction: row !important;
+    gap: 0.5rem !important;
+  }
+
+  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(1) {
+    border-right: 1px solid var(--border) !important;
+    color: var(--primary) !important;
+  }
+
+  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(2) {
+    color: #fca311 !important;
+  }
+
+  /* The 3rd cell (usually eligibility) grows to full width */
+  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(n+3) {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+    padding: 1.5rem 1.25rem !important;
+    background: rgba(255, 255, 255, 0.01) !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    word-break: break-word !important;
+  }
+
+
+
+  /* Handle simple 2-cell rows (Grid 2) */
+  .sarkari-content-area tr:not(:has(td:nth-child(3))) td {
+    grid-column: span 1 !important;
+  }
+
+  /* Handle 1-cell rows */
+  .sarkari-content-area tr:has(td:only-child) td {
+    grid-column: span 2 !important;
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent) !important;
+    font-weight: 700 !important;
+    color: #60a5fa !important;
+  }
+
+  .sarkari-content-area td {
+    padding: 1rem 0.75rem !important;
+    text-align: center !important;
+    border: none !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    line-height: 1.4 !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* Header Cell Overrides */
+  .sarkari-content-area th {
+    display: block !important;
+    width: 100% !important;
+    padding: 1.25rem 1rem !important;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1)) !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    font-size: 0.85rem !important;
+    border-bottom: 2px solid var(--primary) !important;
+  }
+
+  /* Cleanup borders for 2-column mode */
+  .sarkari-content-area tr:not(:has(td:nth-child(3))) td:nth-child(odd) {
+    border-right: 1px solid var(--border) !important;
+    border-bottom: 1px solid var(--border) !important;
+    width: 100% !important;
+  }
+
+  .sarkari-content-area tr:not(:has(td:nth-child(3))) td:nth-child(even) {
+    border-bottom: 1px solid var(--border) !important;
+    width: 100% !important;
+  }
+
+  .sarkari-content-area tr td:last-child,
+  .sarkari-content-area tr td:nth-last-child(2):nth-child(odd):not(:has(+ td + td)) {
+    border-bottom: none !important;
+  }
+
+  .bottom-nav {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* SCRAPED UI SPECIFIC OVERRIDES - Remove Glass & Overshadow */
+.scraped-tables,
+.scraped-tables *,
+.scraped-tables tr,
+.scraped-tables td,
+.scraped-tables th {
+  background: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.scraped-tables tr {
+  margin-bottom: 1.5rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.01) !important;
+}
+
+.scraped-tables td,
+.scraped-tables th {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Ensure mobile hybrid headers are also flat */
+@media (max-width: 991px) {
+
+  .scraped-tables th,
+  .scraped-tables tr:has(td:nth-child(3)) td:nth-child(1),
+  .scraped-tables tr:has(td:nth-child(3)) td:nth-child(2) {
+    background: transparent !important;
+    background-image: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  }
+}
+
+.scraped-tables span {
+  background: transparent !important;
+  color: inherit !important;
+  font-family: inherit !important;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  word-break: break-all !important;
+}
