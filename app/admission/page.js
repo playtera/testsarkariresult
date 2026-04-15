@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic';
 import React from 'react';
 import * as cheerio from 'cheerio';
 import AdmissionSEO from '@/components/AdmissionSEO';
@@ -58,7 +59,7 @@ export default async function AdmissionPage() {
 
                   if (lastDate) {
                       // Clean up formatting
-                      lastDate = lastDate.replace(/^[\s-—]+/, '').replace(/Last Date\s*[:-]?\s*/i, '').trim();
+                      lastDate = lastDate.replace(/^[\s-â€”]+/, '').replace(/Last Date\s*[:-]?\s*/i, '').trim();
                       if (lastDate.length > 50) {
                           lastDate = lastDate.substring(0, 50) + '...';
                       }
@@ -116,3 +117,4 @@ export default async function AdmissionPage() {
 
   return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Discovering newly opened entrance exams and university admissions." items={items} seoContent={<AdmissionSEO />} />;
 }
+
