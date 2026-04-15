@@ -31,24 +31,37 @@ export async function GET() {
         const currentLinks = getSimplifiedHtml(contentHtml);
         const lastLinks = post.tracking?.lastScrapedLinks || '';
 
+        // 1. Initialise SILENTLY (No Telegram spam for finding old pending posts)
         if (!lastLinks && currentLinks) {
-          await writeClient.patch(post._id).set({ 'tracking.lastScrapedLinks': currentLinks, 'tracking.checkCount': 1 }).commit();
+          await writeClient.patch(post._id).set({ 
+            'tracking.lastScrapedLinks': currentLinks, 
+            'tracking.checkCount': 1,
+            'tracking.enabled': true,
+            'tracking.sourceSlug': sourceSlug
+          }).commit();
           syncReferenceStored++;
-        } else if (currentLinks && currentLinks.trim() !== lastLinks.trim()) {
+        } 
+        // 2. Only Notify on ACTUAL changes
+        else if (lastLinks && currentLinks && currentLinks.trim() !== lastLinks.trim()) {
           updatesFound++;
-          await sendNotification(`🔔 <b>CONTENT UPDATE!</b>\n\n<b>Post:</b> ${post.title}\n🔗 <a href="http://sarkarireultsite.in/${post.slug}">View Live Post</a>`);
-          await writeClient.patch(post._id).set({ 'tracking.lastScrapedLinks': currentLinks, 'tracking.checkCount': (post.tracking?.checkCount || 0) + 1 }).commit();
+          await sendNotification(`🔔 <b>CONTENT UPDATE!</b>\n\n<b>Post:</b> ${post.title}\n🔗 <a href="http://sarkariresultcorner.com/${post.slug}">View Live Post</a>`);
+          await writeClient.patch(post._id).set({ 
+            'tracking.lastScrapedLinks': currentLinks, 
+            'tracking.checkCount': (post.tracking?.checkCount || 0) + 1 
+          }).commit();
         } else {
-          await writeClient.patch(post._id).set({ 'tracking.checkCount': (post.tracking?.checkCount || 0) + 1 }).commit();
+          await writeClient.patch(post._id).set({ 
+            'tracking.checkCount': (post.tracking?.checkCount || 0) + 1 
+          }).commit();
         }
       } catch (err) {}
     }
     
+    // Summary log (Important but only one message)
     const logMessage = `📊 <b>Content Automation Log</b>\n\n` +
                        `✅ <b>Status:</b> Verified ${totalPending} items\n` +
-                       `🛡️ <b>Monitored References:</b> ${syncReferenceStored}\n` +
-                       `🔍 <b>Updates Applied:</b> ${updatesFound}\n` +
-                       `⏳ <b>Total Pending:</b> ${totalPending - updatesFound}`;
+                       `🛡️ <b>Monitored:</b> ${syncReferenceStored}\n` +
+                       `🔍 <b>Updates Applied:</b> ${updatesFound}`;
     
     await sendNotification(logMessage);
 
@@ -57,4 +70,3 @@ export async function GET() {
     return Response.json({ success: false, error: error.message }, { status: 500 });
   }
 }
-

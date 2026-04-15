@@ -5,8 +5,15 @@ import * as cheerio from 'cheerio';
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { _id, slug, status, title } = body;
+    const { _id, slug, status, title, tracking } = body;
+
+    // ⛔ SILENCE RULE: If automation is already active, don't send the "New Post" alert again
+    if (tracking?.enabled && tracking?.lastScrapedLinks) {
+       return Response.json({ success: true, message: 'Already active' });
+    }
+
     await sendNotification(`🚀 <b>New Post Live!</b>\n\n<b>Title:</b> ${title || 'Untitled'}\n<b>Status:</b> ${status}`);
+    
     if (status === 'pending' && slug?.current) {
       const targetUrl = `https://sarkariresult.com.cm/${slug.current}`;
       const response = await fetch(targetUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
@@ -31,4 +38,3 @@ export async function POST(req) {
     return Response.json({ success: false, error: err.message }, { status: 500 });
   }
 }
-
