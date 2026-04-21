@@ -41,7 +41,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <head>
-        <link rel="canonical" href="https://sarkariresultcorner.com" />
       </head>
       <body>
         <Header />
