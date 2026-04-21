@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Copy, ExternalLink, Code, Eye, ListFilter, Sparkles, Send, Check, AlertCircle, Loader2 } from 'lucide-react';
+import { ArrowLeft, Copy, ExternalLink, Code, Eye, ListFilter, Sparkles, Send, Check, AlertCircle, Loader2, CheckCircle } from 'lucide-react';
+import { client } from '@/lib/sanity/client';
 
 export default function AdminPostDetail() {
   const params = useParams();
@@ -18,6 +19,8 @@ export default function AdminPostDetail() {
   const [postTitle, setPostTitle] = useState('');
   const [publishing, setPublishing] = useState(false);
   const [publishStatus, setPublishStatus] = useState(null); // 'success', 'error', or null
+  const [existsInSanity, setExistsInSanity] = useState(false);
+  const [checkingSanity, setCheckingSanity] = useState(true);
 
   const getGeminiReadyHtml = (html) => {
     if (!html) return '';
@@ -123,7 +126,26 @@ export default function AdminPostDetail() {
         setLoading(false);
       }
     }
-    if (slugPath) fetchContent();
+
+    async function checkSanity() {
+      if (!slugPath) return;
+      setCheckingSanity(true);
+      try {
+        const cleanSlug = slugPath.startsWith('/') ? slugPath.slice(1) : slugPath;
+        const query = `*[_type == "post" && slug.current == $slug][0]`;
+        const post = await client.fetch(query, { slug: cleanSlug });
+        setExistsInSanity(!!post);
+      } catch (err) {
+        console.error("Sanity check error", err);
+      } finally {
+        setCheckingSanity(false);
+      }
+    }
+
+    if (slugPath) {
+      fetchContent();
+      checkSanity();
+    }
   }, [slugPath]);
 
   const copyToClipboard = () => {
@@ -160,6 +182,7 @@ export default function AdminPostDetail() {
       const json = await res.json();
       if (json.success) {
         setPublishStatus('success');
+        setExistsInSanity(true);
         setTimeout(() => setPublishStatus(null), 3000);
       } else {
         setPublishStatus('error');
@@ -209,7 +232,21 @@ export default function AdminPostDetail() {
               className="title-input"
               placeholder="Post Title..."
             />
-            <span className="slug-badge">{slugPath}</span>
+          </div>
+          <div className="status-container">
+            {checkingSanity ? (
+              <div className="status-badge checking">
+                <Loader2 size={14} className="spin" /> Checking Sanity...
+              </div>
+            ) : existsInSanity ? (
+              <div className="status-badge exists">
+                <CheckCircle size={14} /> Already in Sanity
+              </div>
+            ) : (
+              <div className="status-badge new">
+                <Sparkles size={14} /> Available to Publish
+              </div>
+            )}
           </div>
           <div className="right-controls">
             <button 
@@ -218,7 +255,7 @@ export default function AdminPostDetail() {
               disabled={publishing}
             >
               {publishing ? <Loader2 size={18} className="spin" /> : publishStatus === 'success' ? <Check size={18} /> : <Send size={18} />}
-              {publishing ? 'Publishing...' : publishStatus === 'success' ? 'Published!' : 'Publish to Sanity'}
+              {publishing ? 'Publishing...' : publishStatus === 'success' ? 'Published!' : existsInSanity ? 'Update in Sanity' : 'Publish to Sanity'}
             </button>
             <a href={`https://sarkariresult.com.cm/${slugPath}`} target="_blank" rel="noopener noreferrer" className="external-link">
               View original <ExternalLink size={14} />
@@ -416,6 +453,34 @@ export default function AdminPostDetail() {
           display: flex;
           align-items: center;
           gap: 1.5rem;
+        }
+        .status-container {
+          display: flex;
+          align-items: center;
+        }
+        .status-badge {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.4rem 0.8rem;
+          border-radius: 2rem;
+          font-size: 0.85rem;
+          font-weight: 600;
+        }
+        .status-badge.checking {
+          background: rgba(148, 163, 184, 0.1);
+          color: #94a3b8;
+          border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .status-badge.exists {
+          background: rgba(16, 185, 129, 0.1);
+          color: #10b981;
+          border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .status-badge.new {
+          background: rgba(59, 130, 246, 0.1);
+          color: #60a5fa;
+          border: 1px solid rgba(59, 130, 246, 0.2);
         }
         .publish-btn {
           display: flex;
