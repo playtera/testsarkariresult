@@ -27,7 +27,7 @@ export default function AdminPostDetail() {
 STRICT RULES:
 
 SITE BRAND:
-Replace all website names with SarkariResultCorner.com.
+Replace all website names with SarkariResultCorner.com. in href also
 
 WRITING STYLE:
 Write like a human, not AI.
@@ -115,21 +115,10 @@ Must include keywords
 Wrap in: <div class="faq-data">
 
 OUTPUT FORMAT (STRICT):
-<rewritten_title>
-Your title here
-</rewritten_title>
+Your full HTML content here = "Give it to me in a code block, no tags."
 
-<meta_description>
-Write SEO meta description (150–160 characters)
-</meta_description>
-
-<meta_keywords>
-keyword1, keyword2, keyword3, keyword4
-</meta_keywords>
-
-<rewritten_html>
-Your full HTML content here
-</rewritten_html>
+"Write SEO meta description (150–160 characters)"
+"keyword1, keyword2, keyword3, keyword4"
 
 = `;
 
@@ -354,10 +343,10 @@ Your full HTML content here
       <div className="content-area glass-card">
         <div className="info-bar">
           <div className="title-edit">
-            <input 
-              type="text" 
-              value={postTitle} 
-              onChange={(e) => setPostTitle(e.target.value)} 
+            <input
+              type="text"
+              value={postTitle}
+              onChange={(e) => setPostTitle(e.target.value)}
               className="title-input"
               placeholder="Post Title..."
             />
@@ -378,8 +367,8 @@ Your full HTML content here
             )}
           </div>
           <div className="right-controls">
-            <button 
-              className={`publish-btn ${publishStatus === 'success' ? 'success' : ''}`} 
+            <button
+              className={`publish-btn ${publishStatus === 'success' ? 'success' : ''}`}
               onClick={publishToSanity}
               disabled={publishing}
             >
