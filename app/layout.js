@@ -151,8 +151,35 @@ export default function RootLayout({ children }) {
           <main>
             <Suspense fallback={
               <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-                <div style={{ height: '40px', width: '300px', background: 'var(--border-light)', borderRadius: '8px', marginBottom: '20px', animation: 'pulse 1.5s infinite' }}></div>
-                <div style={{ height: '600px', width: '100%', background: 'var(--border-light)', borderRadius: '16px', animation: 'pulse 1.5s infinite' }}></div>
+                {/* Hero Skeleton (Locked to 450px) */}
+                <div style={{ 
+                  height: '450px', 
+                  width: '100%', 
+                  background: 'var(--card)', 
+                  borderRadius: '2rem', 
+                  marginBottom: '4rem', 
+                  border: '1px solid var(--border)', 
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  animation: 'pulse 1.5s infinite' 
+                }}>
+                   <div style={{ height: '60px', width: '60%', background: 'var(--border-light)', borderRadius: '12px' }}></div>
+                </div>
+                
+                {/* Category Grid Skeleton (Locked to match content) */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                    {[...Array(6)].map((_, i) => (
+                      <div key={i} style={{ 
+                        height: '500px', 
+                        background: 'var(--card)', 
+                        borderRadius: '1.5rem', 
+                        border: '1px solid var(--border)',
+                        animation: 'pulse 1.5s infinite',
+                        animationDelay: `${i * 0.1}s`
+                      }}></div>
+                    ))}
+                </div>
               </div>
             }>
               {children}
