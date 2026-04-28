@@ -18,7 +18,7 @@ export async function GET(request) {
       _id, title, "slug": slug.current, tracking
     }`;
     const pendingPosts = await client.fetch(pendingQuery);
-    
+
     for (const post of pendingPosts) {
       const sourceSlug = post.tracking?.sourceSlug || post.slug;
       const targetUrl = `https://sarkariresult.com.cm/${sourceSlug}`;
@@ -32,10 +32,10 @@ export async function GET(request) {
         const lastLinks = post.tracking?.lastScrapedLinks || '';
 
         if (lastLinks && currentLinks && currentLinks.trim() !== lastLinks.trim()) {
-          await sendNotification(`🔔 <b>CONTENT UPDATE!</b>\n\n<b>Post:</b> ${post.title}\n🔗 https://sarkariresultcorner.com/${post.slug}`, channelId);
-          await writeClient.patch(post._id).set({ 
-            'tracking.lastScrapedLinks': currentLinks, 
-            'tracking.checkCount': (post.tracking?.checkCount || 0) + 1 
+          await sendNotification(`🔔 <b>POST UPDATE!</b>\n\n<b>Post:</b> ${post.title}\n🔗 https://sarkariresultcorner.com/${post.slug}`, channelId);
+          await writeClient.patch(post._id).set({
+            'tracking.lastScrapedLinks': currentLinks,
+            'tracking.checkCount': (post.tracking?.checkCount || 0) + 1
           }).commit();
         }
       } catch (err) { console.error(`Error syncing ${post.slug}:`, err.message); }
@@ -49,7 +49,7 @@ export async function GET(request) {
     });
     const xml = await sitemapRes.text();
     const $ = cheerio.load(xml, { xmlMode: true });
-    
+
     const sitemapItems = [];
     $('url').each((i, el) => {
       const loc = $(el).find('loc').text();
@@ -65,7 +65,7 @@ export async function GET(request) {
             link: path,
             lastmod: lastmod ? new Date(lastmod) : new Date(0)
           });
-        } catch (e) {}
+        } catch (e) { }
       }
     });
 
@@ -88,12 +88,12 @@ export async function GET(request) {
 
     if (filteredLinks.length > 0) {
       // Format Summary Message
-      let summaryMessage = `📊 <b>New Sitemap Updates (${filteredLinks.length})</b>\n\n`;
+      let summaryMessage = `📊 <b>New JOBS (${filteredLinks.length})</b>\n\n`;
       for (const post of filteredLinks) {
         summaryMessage += `${post.title}\nhttps://sarkariresultcorner.com/${post.slug}\n\n`;
         notifiedSlugs.push(post.slug);
       }
-      
+
       // Split and send if too long
       if (summaryMessage.length > 4000) {
         const parts = summaryMessage.match(/[\s\S]{1,4000}/g) || [];
