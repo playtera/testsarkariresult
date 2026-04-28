@@ -66,3 +66,21 @@
     margin-bottom: 2rem;
   }
 }
+
+.loadingPlaceholder {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border-radius: 1.5rem;
+  border: 1px dashed var(--border);
+  color: var(--foreground-muted);
+  font-weight: 600;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}

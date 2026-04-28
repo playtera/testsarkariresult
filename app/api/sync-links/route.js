@@ -1,8 +1,6 @@
-﻿import { writeClient } from '../../../lib/sanity/write-client';
+import { writeClient } from '../../../lib/sanity/write-client';
 import { getSimplifiedHtml, sendNotification } from '../../../lib/scraper-utils';
 import * as cheerio from 'cheerio';
-
-export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {

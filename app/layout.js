@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import { ThemeProvider } from '../context/ThemeContext';
 import { Inter, Outfit } from 'next/font/google';
 import Script from 'next/script';
+import { Suspense } from 'react';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -121,7 +122,7 @@ export default function RootLayout({ children }) {
       <head>
         <Script
           id="adsbygoogle-init"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2635309868525139"
           crossOrigin="anonymous"
         />
@@ -144,9 +145,17 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ThemeProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <Suspense fallback={null}>
+            <Header />
+          </Suspense>
+          <main>
+            <Suspense fallback={null}>
+              {children}
+            </Suspense>
+          </main>
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
         </ThemeProvider>
       </body>
     </html>

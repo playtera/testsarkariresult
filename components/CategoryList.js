@@ -115,6 +115,7 @@ const CategoryList = ({ title, icon, items, viewMoreLink, color = 'primary' }) =
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
+          min-height: 200px;
         }
 
         /* Color variations for Top Borders and Icons */

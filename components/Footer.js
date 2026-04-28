@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -8,7 +8,11 @@ import { Mail, MapPin, Phone, ExternalLink, Globe, Share2, Info, Bell, Send, Che
 
 const Footer = () => {
   const pathname = usePathname();
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState(2026);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   if (pathname?.startsWith('/admin')) return null;
 
@@ -36,8 +40,8 @@ const Footer = () => {
         <div className="footer-top">
           <div className="footer-intro">
             <Link href="/" className="footer-logo">
-              <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner" className="logo-img logo-light" width={200} height={56} />
-              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner" className="logo-img logo-dark" width={200} height={56} />
+              <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner" className="logo-img logo-light" width={200} height={68} />
+              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner" className="logo-img logo-dark" width={200} height={68} />
             </Link>
             <p className="footer-tagline">
               Connecting millions of aspirants with their dream government careers. Trust, accuracy, and speed at your fingertips.

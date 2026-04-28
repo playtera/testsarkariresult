@@ -5,6 +5,7 @@ import { urlFor } from '../../lib/sanity/image'
 import Image from 'next/image'
 import PrintButton from '../../components/PrintButton'
 import * as cheerio from 'cheerio'
+import { connection } from 'next/server'
 
 // GEO: Generate dynamic FAQPage schema for every post (+40% search visibility)
 // Uses Princeton GEO method: Statistics + Authoritative Tone + Answer-First format
@@ -95,6 +96,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function PostPage({ params }) {
+  await connection();
   const { slug: rawSlug } = await params
   // Normalize slug: Remove %20 and spaces, convert to hyphens for matching source site
   const slug = decodeURIComponent(rawSlug).trim().toLowerCase().replace(/\s+/g, '-');

@@ -1,5 +1,5 @@
-﻿export const dynamic = 'force-dynamic';
 import React from 'react';
+import { connection } from 'next/server';
 import * as cheerio from 'cheerio';
 import dbConnect from '@/lib/db';
 import SiteCache from '@/models/SiteCache';
@@ -12,6 +12,7 @@ export const metadata = {
 };
 
 export default async function AdmitCardsPage() {
+  await connection();
   const sourceUrl = `https://sarkariresult.com.cm/admit-card/`;
   let items = [];
   let pageTitle = 'Admit Cards';

@@ -1,8 +1,6 @@
 import { client } from '@/lib/sanity/client';
 import { groq } from 'next-sanity';
 
-export const dynamic = 'force-dynamic';
-
 export default async function sitemap() {
   // Fetch all live posts from Sanity (considering scheduling)
   const posts = await client.fetch(groq`*[_type == "post" && defined(slug.current) && !(_id in path('drafts.**')) && (publishedAt == null || publishedAt <= now())] {

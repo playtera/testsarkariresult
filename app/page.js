@@ -3,6 +3,8 @@ import HomeDashboard from '@/components/HomeDashboard';
 import HomeSEOContent from '@/components/HomeSEOContent';
 import styles from './page.module.css';
 
+export const unstable_instant = { prefetch: 'static' };
+
 export const metadata = {
   title: 'Sarkari Result Corner 2026 - SarkariResultCorner | Latest Govt Jobs & Results Portal',
   description: 'Sarkari Result Corner 2026: Get live updates on Sarkari Results, Latest Online Forms, Admit Cards, and Answer Keys. India\'s trusted government job portal.',
@@ -38,8 +40,10 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Client side dashboard */}
-        <HomeDashboard />
+        {/* Dashboard with Suspense for better initial load performance */}
+        <React.Suspense fallback={<div className={styles.loadingPlaceholder}>Syncing latest updates...</div>}>
+          <HomeDashboard />
+        </React.Suspense>
 
         {/* SEO Rich Content Section */}
         <HomeSEOContent />

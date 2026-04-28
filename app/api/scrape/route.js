@@ -3,8 +3,6 @@ import dbConnect from '@/lib/db';
 import SiteCache from '@/models/SiteCache';
 import { sendNotification } from '@/lib/scraper-utils';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const forceRefresh = searchParams.get('refresh') === 'true';

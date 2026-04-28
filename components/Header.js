@@ -12,8 +12,10 @@ const Header = () => {
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
@@ -36,8 +38,24 @@ const Header = () => {
       <div className="container header-content">
         <Link href="/" className="logo-area">
           <div className="logo-glow"></div>
-          <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner.com" className="site-logo logo-light" width={220} height={60} priority />
-          <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner.com" className="site-logo logo-dark" width={220} height={60} priority />
+          <Image 
+            src="/srcheader_lightmode.png" 
+            alt="SarkariResultCorner.com" 
+            className="site-logo logo-light" 
+            width={200} 
+            height={68} 
+            priority 
+            fetchPriority="high"
+          />
+          <Image 
+            src="/srcheader_darkmode.png" 
+            alt="SarkariResultCorner.com" 
+            className="site-logo logo-dark" 
+            width={200} 
+            height={68} 
+            priority 
+            fetchPriority="high"
+          />
         </Link>
 
         {/* Desktop Nav */}
@@ -63,7 +81,7 @@ const Header = () => {
           </button>
 
           <button className="icon-action-btn theme-toggle" onClick={toggleTheme} aria-label="Toggle Theme">
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            {mounted && (theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />)}
           </button>
 
           <button className="icon-action-btn notify-btn" aria-label="Notifications">
@@ -90,7 +108,7 @@ const Header = () => {
             <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner.com" className="drawer-logo logo-dark" width={160} height={42} />
             <div className="mobile-header-actions">
               <button className="icon-action-btn theme-toggle-mobile" onClick={toggleTheme} aria-label="Toggle Theme">
-                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                {mounted && (theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />)}
               </button>
               <button className="close-drawer" onClick={() => setIsOpen(false)}><X size={24} /></button>
             </div>
@@ -135,8 +153,12 @@ const Header = () => {
           border-bottom: 1px solid var(--border);
           box-shadow: var(--shadow-md);
         }
+        .site-logo {
+          height: 68px;
+          width: auto;
+        }
         .header-scrolled .site-logo {
-          height: 44px;
+          height: 48px;
           width: auto;
         }
         .header-content {

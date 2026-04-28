@@ -1,7 +1,5 @@
 import * as cheerio from 'cheerio';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get('slug');

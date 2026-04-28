@@ -1,5 +1,5 @@
-﻿export const dynamic = 'force-dynamic';
 import React from 'react';
+import { connection } from 'next/server';
 import * as cheerio from 'cheerio';
 import AdmissionSEO from '@/components/AdmissionSEO';
 import CategoryPageClientUI from '@/components/CategoryPageClientUI';
@@ -14,6 +14,7 @@ export const metadata = {
 };
 
 export default async function AdmissionPage() {
+  await connection();
   const sourceUrl = `https://sarkariresult.com.cm/admission/`;
   let items = [];
   let pageTitle = 'Admissions';
