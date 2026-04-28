@@ -117,9 +117,9 @@ Wrap in: <div class="faq-data">
 OUTPUT FORMAT (STRICT):
 Your full HTML content here = "Give it to me in a code block, no tags."
 
-"rewritten seo title"
-"Write SEO meta description (150–160 characters)"
-"keyword1, keyword2, keyword3, keyword4"
+" rewritten seo title "
+" Write SEO meta description (150–160 characters) "
+" keyword1, keyword2, keyword3, keyword4 "
 
 = `;
 

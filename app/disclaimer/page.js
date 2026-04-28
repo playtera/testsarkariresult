@@ -5,6 +5,13 @@ import Link from 'next/link';
 export const metadata = {
   title: 'Disclaimer | SarkariResultCorner',
   description: 'Disclaimer and information about the accuracy of content on SarkariResultCorner.com.',
+  alternates: {
+    canonical: 'https://sarkariresultcorner.com/disclaimer',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
 };
 
 export default function DisclaimerPage() {

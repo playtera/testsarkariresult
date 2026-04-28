@@ -5,6 +5,13 @@ import Link from 'next/link';
 export const metadata = {
   title: 'Privacy Policy | SarkariResultCorner',
   description: 'Learn how SarkariResultCorner protects your personal data and ensures privacy.',
+  alternates: {
+    canonical: 'https://sarkariresultcorner.com/privacy-policy',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
 };
 
 export default function PrivacyPage() {
