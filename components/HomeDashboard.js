@@ -1,34 +1,11 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Sparkles, FileText, CheckCircle, GraduationCap } from 'lucide-react';
 import CategoryList from '@/components/CategoryList';
+import { getScrapedData } from '@/lib/data-fetcher';
 import styles from './HomeDashboard.module.css';
 
-export default function HomeDashboard() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch('/api/scrape', { cache: 'no-store' });
-        const json = await res.json();
-        if (json.success && json.data) {
-          setData(json.data);
-        } else {
-          setError(json.error || 'Failed to fetch data');
-        }
-      } catch (err) {
-        console.error("Failed to fetch scraped data", err);
-        setError("Error connecting to the scraper API");
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
+export default async function HomeDashboard() {
+  const data = await getScrapedData();
 
   const getIconForCategory = (title) => {
     const t = title.toLowerCase();
@@ -58,33 +35,28 @@ export default function HomeDashboard() {
     return "/" + t.replace(/\s+/g, '-');
   };
 
+  if (!data || data.length === 0) {
+    return (
+      <div className={styles.errorState}>
+        <p>No updates available right now. Please check back soon.</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.dashboardWrapper}>
-      {loading ? (
-        <div className={styles.dashboardGrid}>
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <div key={n} className={`${styles.skeletonCard} ${styles.skeletonShimmer}`} />
-          ))}
-        </div>
-      ) : error ? (
-        <div className={styles.errorState}>
-          <p>Oops, something went wrong:</p>
-          <p className={styles.errorMessage}>{error}</p>
-        </div>
-      ) : (
-        <div className={styles.dashboardGrid}>
-          {data.map((category, index) => (
-            <CategoryList
-              key={index}
-              title={category.title}
-              icon={getIconForCategory(category.title)}
-              items={category.items.slice(0, 15)}
-              viewMoreLink={getLinkForCategory(category.title)}
-              color={getColorForCategory(category.title)}
-            />
-          ))}
-        </div>
-      )}
+      <div className={styles.dashboardGrid}>
+        {data.map((category, index) => (
+          <CategoryList
+            key={index}
+            title={category.title}
+            icon={getIconForCategory(category.title)}
+            items={category.items.slice(0, 15)}
+            viewMoreLink={getLinkForCategory(category.title)}
+            color={getColorForCategory(category.title)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

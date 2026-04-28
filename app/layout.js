@@ -2,6 +2,20 @@ import './globals.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { ThemeProvider } from '../context/ThemeContext';
+import { Inter, Outfit } from 'next/font/google';
+import Script from 'next/script';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-outfit',
+});
 
 export const metadata = {
   title: 'Sarkari Result 2026 - SarkariResultCorner | Latest Govt Jobs, Admit Cards & Results',
@@ -103,12 +117,13 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" className={`${inter.variable} ${outfit.variable}`} data-scroll-behavior="smooth">
       <head>
-        <script
-          async
+        <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2635309868525139"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         />
         <script
           type="application/ld+json"
@@ -125,7 +140,8 @@ export default function RootLayout({ children }) {
         <link rel="me" href="https://t.me/sarkariresult_corner" />
         <link rel="icon" href="/src_lightmode.png" media="(prefers-color-scheme: light)" />
         <link rel="icon" href="/src_darkmode.png" media="(prefers-color-scheme: dark)" />
-        <link rel="icon" href="/src_darkmode.png" /></head>
+        <link rel="icon" href="/src_darkmode.png" />
+      </head>
       <body>
         <ThemeProvider>
           <Header />
@@ -136,3 +152,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
