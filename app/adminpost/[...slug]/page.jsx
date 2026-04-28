@@ -27,7 +27,7 @@ export default function AdminPostDetail() {
 STRICT RULES:
 
 SITE BRAND:
-Replace all website names with SarkariResultCorner.com. in href also
+Replace "sarkariresult.com.cm" website domain with "SarkariResultCorner.com" in href also
 
 WRITING STYLE:
 Write like a human, not AI.
