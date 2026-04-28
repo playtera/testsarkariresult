@@ -83,7 +83,7 @@ export default function TermsPage() {
             </section>
 
             <div className="footer-notice">
-               For any questions regarding our terms, please <Link href="/contact">contact us</Link>.
+               For any questions regarding our terms, email us at <a href="mailto:asksrcteam@gmail.com">asksrcteam@gmail.com</a> or <Link href="/contact">contact us</Link>. Stay updated via Telegram: <a href="https://t.me/sarkariresult_corner" target="_blank" rel="noopener noreferrer">@sarkariresult_corner</a>.
             </div>
           </div>
         </div>

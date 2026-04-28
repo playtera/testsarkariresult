@@ -54,7 +54,7 @@ const Footer = () => {
               <h4>Get Fast Job Alerts</h4>
               <p>Join 500k+ subscribers on Telegram today.</p>
             </div>
-            <a href="https://t.me/sarkariresult" className="cta-footer-btn">
+            <a href="https://t.me/sarkariresult_corner" className="cta-footer-btn">
               <Send size={18} /> Join Telegram
             </a>
           </div>

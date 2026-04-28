@@ -3,17 +3,17 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export const metadata = {
-  title: 'SarkariResultCorner.com - Official Website for Latest Jobs, Results, Admit Cards',
-  description: 'SarkariResultCorner 2026 – Official Website for latest government jobs, online forms, admit cards, results, and recruitment updates for SSC, Railway, Bank, Police, UPPSC, UPSSSC & more.',
-  keywords: 'Sarkari Result, Sarkari Exam, Government Jobs, Admit Card, Latest Results, Online Form, 2026 jobs, India recruitment',
+  title: 'Sarkari Result 2026 – Latest Govt Jobs, Admit Card, Answer Key | SarkariResultCorner',
+  description: 'SarkariResultCorner.com: India\'s trusted portal for Sarkari Result 2026, Sarkari Naukri, Admit Card, Answer Key & Online Form for SSC CGL, UPSC, RRB, IBPS, Bank & State PSC exams.',
+  keywords: 'Sarkari Result 2026, Sarkari Naukri 2026, Government Jobs India, SSC CGL 2026, RRB NTPC 2026, UPSC 2026, IBPS PO 2026, Admit Card Download, Answer Key 2026, Online Form, State PSC Jobs, UP Police Result, BPSC Result 2026, Latest Sarkari Vacancy, Railway Jobs 2026',
   authors: [{ name: 'SarkariResultCorner Team' }],
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
   alternates: {
     canonical: 'https://sarkariresultcorner.com',
   },
   openGraph: {
-    title: 'SarkariResultCorner.com - Government Jobs Portal',
-    description: 'Get latest updates on Sarkari Results, Admit Cards, and Latest Jobs.',
+    title: 'Sarkari Result 2026 – Govt Jobs, Admit Card, Answer Key | SarkariResultCorner',
+    description: 'India\'s trusted portal for Sarkari Result 2026, Sarkari Naukri, Admit Card & Online Form for SSC, UPSC, RRB, IBPS, Bank & State PSC exams. Updated daily.',
     url: 'https://sarkariresultcorner.com',
     siteName: 'SarkariResultCorner',
     images: [
@@ -21,7 +21,7 @@ export const metadata = {
         url: 'https://sarkariresultcorner.com/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'SarkariResultCorner - India\'s Government Jobs Portal',
+        alt: 'SarkariResultCorner – India\'s Sarkari Result & Government Jobs Portal 2026',
       },
     ],
     locale: 'en_IN',
@@ -29,8 +29,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SarkariResultCorner.com - Government Jobs Portal',
-    description: 'Get latest updates on Sarkari Results, Admit Cards, and Latest Jobs.',
+    title: 'Sarkari Result 2026 – Govt Jobs, Admit Card, Answer Key | SarkariResultCorner',
+    description: 'India\'s trusted portal for Sarkari Result 2026, Sarkari Naukri, Admit Card & Online Form for SSC, UPSC, RRB, IBPS, Bank & State PSC exams.',
     images: ['https://sarkariresultcorner.com/twitter-image.jpg'],
     site: '@SarkariResultCorner',
     creator: '@SarkariResultCorner',
@@ -79,9 +79,19 @@ export default function RootLayout({ children }) {
     "description": "India's leading portal for government job notifications, sarkari results, admit cards, and recruitment updates for SSC, Railway, Bank, Police and state PSC exams.",
     "foundingDate": "2024",
     "areaServed": "IN",
-    "knowsAbout": ["Sarkari Result", "Government Jobs India", "SSC Recruitment", "Railway Jobs", "Bank PO", "UPSC", "State PSC Exams"],
+    "knowsAbout": [
+      "Sarkari Result 2026", "Sarkari Naukri 2026", "Government Jobs India",
+      "SSC CGL 2026", "SSC CHSL 2026", "SSC MTS", "SSC GD Constable",
+      "UPSC Civil Services 2026", "UPSC NDA 2026", "UPSC CDS",
+      "RRB NTPC 2026", "RRB Group D 2026", "RRB ALP",
+      "IBPS PO 2026", "IBPS Clerk 2026", "SBI PO 2026", "Bank Jobs India",
+      "State PSC Exams", "UPPSC", "BPSC", "RPSC", "MPPSC", "HSSC",
+      "UP Police Result 2026", "BPSC 70th Result 2026",
+      "Admit Card Download", "Answer Key 2026", "Online Form Government",
+      "PSU Recruitment 2026", "Railway Jobs 2026", "Document Verification Government"
+    ],
     "sameAs": [
-      "https://t.me/sarkariresult"
+      "https://t.me/sarkariresult_corner"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
@@ -106,7 +116,7 @@ export default function RootLayout({ children }) {
         <meta name="geo.country" content="India" />
         <meta name="language" content="English" />
         <meta name="revisit-after" content="1 day" />
-        <link rel="me" href="https://t.me/sarkariresult" />
+        <link rel="me" href="https://t.me/sarkariresult_corner" />
       </head>
       <body>
         <Header />

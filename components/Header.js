@@ -65,7 +65,7 @@ const Header = () => {
             <span className="notify-badge"></span>
           </button>
 
-          <a href="https://t.me/sarkariresult" target="_blank" rel="noopener noreferrer" className="premium-cta-btn">
+          <a href="https://t.me/sarkariresult_corner" target="_blank" rel="noopener noreferrer" className="premium-cta-btn">
             <Send size={16} className="cta-icon" />
             <span>Join Telegram</span>
           </a>
@@ -99,7 +99,7 @@ const Header = () => {
 
           <div className="drawer-footer">
             <p className="drawer-caption">Get instant updates on Telegram</p>
-            <a href="https://t.me/sarkariresult" className="drawer-cta">
+            <a href="https://t.me/sarkariresult_corner" className="drawer-cta">
               <Send size={18} /> Join Now
             </a>
           </div>

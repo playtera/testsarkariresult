@@ -53,7 +53,7 @@ export default function DisclaimerPage() {
             </section>
 
             <div className="footer-notice">
-               For any legal concerns or questions, please <Link href="/contact">reach out to us</Link>.
+               For any legal concerns or questions, email us at <a href="mailto:asksrcteam@gmail.com">asksrcteam@gmail.com</a> or <Link href="/contact">reach out via our contact page</Link>. You can also join us on Telegram: <a href="https://t.me/sarkariresult_corner" target="_blank" rel="noopener noreferrer">@sarkariresult_corner</a>.
             </div>
           </div>
         </div>

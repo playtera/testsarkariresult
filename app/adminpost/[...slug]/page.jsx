@@ -26,19 +26,52 @@ export default function AdminPostDetail() {
 
 STRICT RULES:
 
+---
 SITE BRAND:
-Replace "sarkariresult.com.cm" website domain with "SarkariResultCorner.com" in href also
+Replace "sarkariresult.com.cm" website domain with "SarkariResultCorner.com" in all href attributes and visible text.
 
+---
+KEYWORD STRATEGY (READ CAREFULLY — THIS IS THE MOST IMPORTANT SEO RULE):
+
+There are 3 tiers of keywords. You MUST follow this priority:
+
+TIER 1 — HEAD KEYWORDS (AVOID as primary focus):
+Keywords like "Sarkari Result", "Sarkari Naukri", "Government Jobs" have 80–95 keyword difficulty.
+Do NOT build headings or paragraphs around these alone.
+You may use them naturally 2–3 times in the body, but never as the main anchor.
+
+TIER 2 — MID-TIER KEYWORDS (Use only in H2/H3 category headings):
+Keywords like "SSC CGL 2026", "IBPS PO 2026", "RRB NTPC 2026" have 60–75 keyword difficulty.
+Use them in section headings and 1–2 sentences. Do not over-repeat.
+
+TIER 3 — LONG-TAIL KEYWORDS (THIS IS YOUR PRIMARY TARGET — WINNABLE):
+These have keyword difficulty 20–45 and are what Google will actually rank us for.
+Always build your title, first paragraph, H3 headings, and FAQ around long-tail variants like:
+  - "How to download [Exam] admit card 2026 with registration number"
+  - "[Exam] 2026 expected cut off marks category wise"
+  - "[Exam] notification eligibility age limit 2026"
+  - "[Exam] result date 2026 official link"
+  - "How to apply for [Exam] 2026 online form step by step"
+  - "[Exam] selection process syllabus 2026"
+  - "[State] [Exam] result 2026 cut off"
+  - "What is the age limit for [Exam] 2026"
+  - "[Exam] vacancy 2026 details how many posts"
+
+FOR EVERY POST: Read the original title and automatically generate 3–4 long-tail keyword variations.
+Use those variations naturally in: title, first paragraph, 2–3 H3 headings, FAQ questions.
+
+---
 WRITING STYLE:
 Write like a human, not AI.
 Use mixed sentence lengths (short + long).
 Slight conversational tone but still professional.
 Add natural phrases like:
-"Here’s what you should know"
+"Here's what you should know"
 "One important update"
 "Many candidates are asking this"
 Avoid robotic or repetitive structure.
 
+---
 STRICT ANTI-PLAGIARISM (VERY IMPORTANT):
 Rewrite completely from scratch.
 DO NOT follow original sentence order.
@@ -53,73 +86,109 @@ NEVER write copied patterns like:
 "Get details..."
 "Direct link below..."
 
-BANNED AI PHRASES:
-Do NOT use:
+---
+BANNED AI PHRASES (do NOT use any of these):
 "delve into", "comprehensive guide", "unlock opportunities",
 "fantastic chance", "stable and rewarding career",
 "in this article we will explore", "crucial deadlines",
 "significant recruitment opportunity"
 
+---
 TITLE:
 Create a highly engaging, SEO-friendly title.
-Must include main keyword naturally.
-Make it look like news headline.
+Must include a LONG-TAIL keyword variation naturally (Tier 3 from above).
+Make it look like a news headline — specific, clear, keyword-first.
+Good example: "SSC CGL 2026 Admit Card: How to Download Hall Ticket with Registration Number"
+Bad example: "SSC CGL 2026 – Everything You Need to Know"
 
+---
 SEO OPTIMIZATION:
-Use keyword "{originalTitle}" naturally:
-in title
-in first paragraph
-in 2–3 headings
-Use "Sarkari Result" naturally (max 3–4 times)
-Use keyword variations:
-Example:
-SSC Steno Exam City 2026
-Stenographer Skill Test Center Details
-SSC Exam City Status
+Use the original topic keyword "{originalTitle}" naturally:
+  - in title
+  - in first paragraph
+  - in 2–3 headings
+Use "Sarkari Result" naturally (max 3–4 times total)
+Generate and use keyword variations (long-tail, Tier 3 only):
+Example for SSC Steno 2026:
+  ✅ "How to check SSC Steno Exam City 2026 online"
+  ✅ "Stenographer Skill Test center allotment 2026 steps"
+  ✅ "SSC Steno exam city status 2026 with roll number"
+  ❌ "SSC Steno 2026" (too short, too competitive — use as supporting term only)
 
+---
 HTML STRUCTURE (NO MARKDOWN):
-Use only HTML tags (<p>, <h3>, <table>)
-No markdown (** or ##)
+Use only HTML tags: <p>, <h3>, <table>, <ul>, <ol>, <div>
+No markdown (no ** or ##)
 
+---
 TABLE RULE (VERY STRICT):
-Keep ALL tables EXACTLY same
-Wrap tables like:
-Examples:
-fee → table-fee
-dates → table-dates
-vacancy → table-vacancy
-links → table-links
-faq → faq-data
+Keep ALL original tables with EXACTLY the same data — do not drop any rows.
+Wrap each table in a div with a descriptive class:
+  <div class="table-fee">...</div>       → for fee tables
+  <div class="table-dates">...</div>     → for important dates
+  <div class="table-vacancy">...</div>   → for vacancy/post details
+  <div class="table-links">...</div>     → for download/apply links
+  <div class="table-eligibility">...</div> → for eligibility criteria
 
+---
 LIST RULE:
-Keep <ul> / <ol>
-Wrap lists like:
+Keep all <ul> and <ol> lists intact.
+Wrap each list in a div with a descriptive class:
+  <div class="list-steps">...</div>      → for step-by-step instructions
+  <div class="list-docs">...</div>       → for document requirements
+  <div class="list-rules">...</div>      → for rules or restrictions
 
+---
 CONTENT EXPANSION:
-Minimum 1200+ words
-Add helpful explanations:
-eligibility
-selection process
-how to check details
-Add user guidance tips
+Minimum 1200+ words total.
+Add helpful explanations for:
+  - Eligibility criteria (age, qualification, category-wise)
+  - Selection process (stages, tests, interview)
+  - How to check/download/apply (step-by-step)
+  - What to do if something goes wrong (forgot registration, wrong center, etc.)
+Add user guidance tips throughout.
 
-CTA (IMPORTANT):
-Add lines like:
-Apply before last date
-Always verify from official website
-Bookmark SarkariResultCorner.com
+---
+CTA (IMPORTANT — add these lines naturally throughout):
+  - "Apply before the last date to avoid last-minute server issues."
+  - "Always verify all details from the official website before submitting."
+  - "Bookmark SarkariResultCorner.com for instant updates."
 
-FAQ SECTION:
-Minimum 5 questions
-Must include keywords
-Wrap in: <div class="faq-data">
+---
+FAQ SECTION (MANDATORY):
+Minimum 5 questions.
+FAQ questions MUST be long-tail keyword questions (Tier 3 from keyword strategy).
+Good FAQ question examples:
+  ✅ "How can I download the SSC CGL 2026 admit card if I forgot my registration number?"
+  ✅ "What is the expected cut off for OBC category in RRB NTPC 2026?"
+  ❌ "What is SSC CGL?" (too generic — avoid)
+Wrap entire FAQ section in: <div class="faq-data">...</div>
+Each Q&A pair format:
+  <div class="faq-item">
+    <h4 class="faq-question">Question here?</h4>
+    <p class="faq-answer">Answer here.</p>
+  </div>
 
-OUTPUT FORMAT (STRICT):
-Your full HTML content here = "Give it to me in a code block, no tags."
+---
+OUTPUT FORMAT (STRICT — follow exactly):
+Return THREE separate blocks in this exact order:
 
-" rewritten seo title "
-" Write SEO meta description (150–160 characters) "
-" keyword1, keyword2, keyword3, keyword4 "
+BLOCK 1 — Full HTML content (no code fences, no backticks, raw HTML only):
+[Your complete rewritten HTML article here]
+
+BLOCK 2 — SEO Title (on its own line, inside quotes):
+"Your rewritten SEO title here"
+
+BLOCK 3 — Meta Description (150–160 characters, inside quotes):
+"Your meta description here"
+
+BLOCK 4 — Focus Keywords (comma-separated, 4–6 long-tail keywords, inside quotes):
+"keyword phrase 1, keyword phrase 2, keyword phrase 3, keyword phrase 4"
+
+NOTE on keywords block: List ONLY long-tail (Tier 3) keywords — specific 3–6 word phrases.
+Do NOT list generic terms like "sarkari result" or "government jobs" as standalone keywords.
+Good: "SSC CGL 2026 admit card download with roll number"
+Bad: "SSC CGL 2026"
 
 = `;
 

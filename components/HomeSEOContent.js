@@ -65,14 +65,27 @@ const HomeSEOContent = () => {
       "cssSelector": [".seo-speakable-summary", "h2", "h3"]
     },
     "about": [
-      { "@type": "Thing", "name": "Sarkari Result" },
+      { "@type": "Thing", "name": "Sarkari Result 2026" },
+      { "@type": "Thing", "name": "Sarkari Naukri 2026" },
       { "@type": "Thing", "name": "Government Jobs India" },
-      { "@type": "Thing", "name": "SSC CGL" },
-      { "@type": "Thing", "name": "UPSC Civil Services" },
-      { "@type": "Thing", "name": "RRB NTPC" },
-      { "@type": "Thing", "name": "Admit Card Download" }
+      { "@type": "Thing", "name": "SSC CGL 2026" },
+      { "@type": "Thing", "name": "SSC CHSL 2026" },
+      { "@type": "Thing", "name": "UPSC Civil Services 2026" },
+      { "@type": "Thing", "name": "RRB NTPC 2026" },
+      { "@type": "Thing", "name": "RRB Group D 2026" },
+      { "@type": "Thing", "name": "IBPS PO 2026" },
+      { "@type": "Thing", "name": "IBPS Clerk 2026" },
+      { "@type": "Thing", "name": "SBI PO 2026" },
+      { "@type": "Thing", "name": "UP Police Result 2026" },
+      { "@type": "Thing", "name": "BPSC 70th Result 2026" },
+      { "@type": "Thing", "name": "State PSC Recruitment" },
+      { "@type": "Thing", "name": "Admit Card Download" },
+      { "@type": "Thing", "name": "Answer Key 2026" },
+      { "@type": "Thing", "name": "Online Form Government" },
+      { "@type": "Thing", "name": "PSU Recruitment 2026" },
+      { "@type": "Thing", "name": "Railway Jobs 2026" }
     ],
-    "keywords": "Sarkari Result, Government Jobs 2026, SSC CGL, UPSC, RRB NTPC, Admit Card, Online Form",
+    "keywords": "Sarkari Result 2026, Sarkari Naukri 2026, Government Jobs India, SSC CGL 2026, SSC CHSL 2026, UPSC 2026, RRB NTPC 2026, RRB Group D 2026, IBPS PO 2026, SBI PO 2026, UP Police Result, BPSC 70th Result, Admit Card Download, Answer Key 2026, Online Form, State PSC Jobs, Railway Jobs 2026, PSU Recruitment 2026",
     "inLanguage": "en-IN",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://sarkariresultcorner.com" }
   };

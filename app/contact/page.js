@@ -22,7 +22,7 @@ export default function ContactPage() {
               <div className="icon"><Mail /></div>
               <h3>Email Support</h3>
               <p>For job queries and general help:</p>
-              <a href="mailto:contact@sarkariresultcorner.com" className="email">contact@sarkariresultcorner.com</a>
+              <a href="mailto:asksrcteam@gmail.com" className="email">asksrcteam@gmail.com</a>
             </div>
 
             <div className="info-box">
@@ -30,6 +30,13 @@ export default function ContactPage() {
               <h3>Working Hours</h3>
               <p>We are available 24/7 online. For email replies, our typical response time is:</p>
               <div className="time">Monday - Saturday (10 AM - 6 PM IST)</div>
+            </div>
+
+            <div className="info-box">
+              <div className="icon"><MapPin /></div>
+              <h3>Telegram Channel</h3>
+              <p>Get instant job alerts and result updates directly on Telegram:</p>
+              <a href="https://t.me/sarkariresult_corner" target="_blank" rel="noopener noreferrer" className="email">@sarkariresult_corner</a>
             </div>
           </div>
 

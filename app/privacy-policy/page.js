@@ -65,7 +65,7 @@ export default function PrivacyPage() {
             </section>
 
             <div className="footer-notice">
-               If you have any questions about this Privacy Policy, please <Link href="/contact">contact us here</Link>.
+               If you have any questions about this Privacy Policy, email us at <a href="mailto:asksrcteam@gmail.com">asksrcteam@gmail.com</a> or <Link href="/contact">contact us here</Link>. For quick updates, join our Telegram: <a href="https://t.me/sarkariresult_corner" target="_blank" rel="noopener noreferrer">@sarkariresult_corner</a>.
             </div>
           </div>
         </div>
