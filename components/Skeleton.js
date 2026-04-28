@@ -7,8 +7,8 @@ export const CategorySkeleton = () => {
     <div className="skeleton-category-container">
       <div className="skeleton-header animate-pulse"></div>
       <div className="skeleton-list">
-        {[...Array(8)].map((_, i) => (
-          <div key={i} className="skeleton-item animate-pulse" style={{ animationDelay: `${i * 0.1}s` }}>
+        {[...Array(12)].map((_, i) => (
+          <div key={i} className="skeleton-item animate-pulse" style={{ animationDelay: `${i * 0.05}s` }}>
             <div className="skeleton-bullet"></div>
             <div className="skeleton-line"></div>
           </div>
@@ -21,7 +21,7 @@ export const CategorySkeleton = () => {
           border-radius: 16px;
           padding: 20px;
           margin-bottom: 24px;
-          min-height: 480px;
+          min-height: 650px;
         }
         .skeleton-header {
           height: 32px;

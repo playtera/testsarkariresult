@@ -47,6 +47,9 @@ export default function Home() {
             <CategorySkeleton />
             <CategorySkeleton />
             <CategorySkeleton />
+            <CategorySkeleton />
+            <CategorySkeleton />
+            <CategorySkeleton />
           </div>
         }>
           <HomeDashboard />

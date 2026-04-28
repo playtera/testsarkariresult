@@ -58,6 +58,7 @@ const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant, sa
           position: relative;
           backdrop-filter: blur(10px);
           overflow: hidden;
+          min-height: 145px;
         }
         .job-card-link::before {
           content: '';

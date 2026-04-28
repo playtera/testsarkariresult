@@ -40,8 +40,8 @@ const Footer = () => {
         <div className="footer-top">
           <div className="footer-intro">
             <Link href="/" className="footer-logo">
-              <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner" className="logo-img logo-light" width={200} height={68} />
-              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner" className="logo-img logo-dark" width={200} height={68} />
+              <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner" className="logo-img logo-light" width={165} height={56} />
+              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner" className="logo-img logo-dark" width={165} height={56} />
             </Link>
             <p className="footer-tagline">
               Connecting millions of aspirants with their dream government careers. Trust, accuracy, and speed at your fingertips.
@@ -155,7 +155,7 @@ const Footer = () => {
         }
         .logo-img {
           height: 56px;
-          width: auto;
+          width: 165px;
           margin-bottom: 1.5rem;
         }
         .footer-tagline {

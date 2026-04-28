@@ -42,8 +42,8 @@ const Header = () => {
             src="/srcheader_lightmode.png" 
             alt="SarkariResultCorner.com" 
             className="site-logo logo-light" 
-            width={200} 
-            height={68} 
+            width={176} 
+            height={60} 
             priority 
             fetchPriority="high"
           />
@@ -51,8 +51,8 @@ const Header = () => {
             src="/srcheader_darkmode.png" 
             alt="SarkariResultCorner.com" 
             className="site-logo logo-dark" 
-            width={200} 
-            height={68} 
+            width={176} 
+            height={60} 
             priority 
             fetchPriority="high"
           />
@@ -154,14 +154,12 @@ const Header = () => {
           box-shadow: var(--shadow-md);
         }
         .site-logo {
-          height: 68px;
-          width: auto;
-          aspect-ratio: 200 / 68;
+          height: 60px;
+          width: 176px;
         }
         .header-scrolled .site-logo {
           height: 48px;
-          width: auto;
-          aspect-ratio: 200 / 68;
+          width: 141px;
         }
         .header-content {
           display: flex;
@@ -187,10 +185,6 @@ const Header = () => {
           filter: blur(25px);
           opacity: 0.15;
           z-index: -1;
-        }
-        .site-logo {
-          height: 60px;
-          width: auto;
         }
         
         /* Desktop Navigation */
