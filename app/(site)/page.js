@@ -4,6 +4,8 @@ import HomeSEOContent from '@/components/HomeSEOContent';
 import { CategorySkeleton } from '@/components/Skeleton';
 import styles from './page.module.css';
 
+export const unstable_instant = { prefetch: 'static' };
+
 export const metadata = {
   title: 'Sarkari Result Corner 2026 - SarkariResultCorner | Latest Govt Jobs & Results Portal',
   description: 'Sarkari Result Corner 2026: Get live updates on Sarkari Results, Latest Online Forms, Admit Cards, and Answer Keys. India\'s trusted government job portal.',
