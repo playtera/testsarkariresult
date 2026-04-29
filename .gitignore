@@ -42,3 +42,10 @@ next-env.d.ts
 
 # scratch
 scratch/
+
+# lighthouse reports
+lighthouse-*.json
+*.report.json
+*.report.html
+/artifacts/
+/tmp/

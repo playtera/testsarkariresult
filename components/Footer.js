@@ -1,21 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Mail, MapPin, Phone, ExternalLink, Globe, Share2, Info, Bell, Send, ChevronRight } from 'lucide-react';
+import { Mail, MapPin, ExternalLink, Globe, Share2, Info, Send, ChevronRight } from 'lucide-react';
 
 const Footer = () => {
-  const pathname = usePathname();
-  const [currentYear, setCurrentYear] = useState(2026);
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
-
-  if (pathname?.startsWith('/admin')) return null;
-
   const footerLinks = {
     company: [
       { name: 'About Us', href: '/about' },
@@ -40,8 +30,8 @@ const Footer = () => {
         <div className="footer-top">
           <div className="footer-intro">
             <Link href="/" className="footer-logo">
-              <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner" className="logo-img logo-light" width={165} height={56} />
-              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner" className="logo-img logo-dark" width={165} height={56} />
+              <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner.com Official Logo" className="logo-img logo-light" width={165} height={56} />
+              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner.com Official Logo" className="logo-img logo-dark" width={165} height={56} />
             </Link>
             <p className="footer-tagline">
               Connecting millions of aspirants with their dream government careers. Trust, accuracy, and speed at your fingertips.
@@ -108,7 +98,7 @@ const Footer = () => {
         <div className="footer-bottom">
            <div className="bottom-content">
              <p className="copyright-text">
-               &copy; {currentYear} <span className="text-gradient">SarkariResultCorner</span>. Built with passion for Indian Aspirants.
+               &copy; 2026 <span className="text-gradient">SarkariResultCorner</span>. Built with passion for Indian Aspirants.
              </p>
              <div className="legal-links">
                {footerLinks.company.map((link) => (
@@ -155,7 +145,7 @@ const Footer = () => {
         }
         .logo-img {
           height: 56px;
-          width: 165px;
+          width: auto;
           margin-bottom: 1.5rem;
         }
         .footer-tagline {

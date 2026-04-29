@@ -51,7 +51,7 @@ export default async function HomeDashboard() {
             key={index}
             title={category.title}
             icon={getIconForCategory(category.title)}
-            items={category.items.slice(0, 15)}
+            items={category.items.slice(0, 6)}
             viewMoreLink={getLinkForCategory(category.title)}
             color={getColorForCategory(category.title)}
           />

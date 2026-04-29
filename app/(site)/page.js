@@ -1,8 +1,9 @@
-import React from 'react';
+import { Suspense } from 'react';
 import HomeDashboard from '@/components/HomeDashboard';
 import HomeSEOContent from '@/components/HomeSEOContent';
 import { CategorySkeleton } from '@/components/Skeleton';
 import styles from './page.module.css';
+import dashboardStyles from '@/components/HomeDashboard.module.css';
 
 export const metadata = {
   title: 'Sarkari Result Corner 2026 - SarkariResultCorner | Latest Govt Jobs & Results Portal',
@@ -26,35 +27,36 @@ export const metadata = {
   }
 };
 
+function DashboardSkeleton() {
+  return (
+    <div className={dashboardStyles.dashboardGrid} style={{ marginTop: '2rem', minHeight: '980px' }}>
+      {[...Array(6)].map((_, i) => (
+        <CategorySkeleton key={i} />
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <div className={styles.homeContainer}>
       <div className={styles.content}>
-        <div className={styles.heroSection}>
-          <h1 className={styles.title}>
-            Sarkari Result Corner 2026: Your Gateway to <span className={styles.textGradient}>Government Jobs</span>
+        <div className="lcp-hero">
+          <h1 className="lcp-title">
+            Sarkari Result Corner 2026: Your Gateway to <span className="text-gradient">Government Jobs</span>
           </h1>
-          <p className={styles.description}>
+          <p className="lcp-subtitle">
             Live updates on <strong>Sarkari Results</strong>, <strong>Admit Cards</strong>, and <strong>Latest Jobs</strong> directly extracted in real-time.
           </p>
         </div>
 
-        {/* Dashboard with Suspense for better initial load performance */}
-        <React.Suspense fallback={
-          <div className={styles.skeletonGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-            <CategorySkeleton />
-            <CategorySkeleton />
-            <CategorySkeleton />
-            <CategorySkeleton />
-            <CategorySkeleton />
-            <CategorySkeleton />
-          </div>
-        }>
+        <Suspense fallback={<DashboardSkeleton />}>
           <HomeDashboard />
-        </React.Suspense>
+        </Suspense>
 
-        {/* SEO Rich Content Section */}
-        <HomeSEOContent />
+        <Suspense fallback={null}>
+          <HomeSEOContent />
+        </Suspense>
       </div>
     </div>
   );
