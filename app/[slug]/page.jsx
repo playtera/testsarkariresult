@@ -108,7 +108,7 @@ function enhanceScrapedHtml(html, inlineLink, allLinks) {
 
     // 1. Dynamic Contextual Keyword Linking (AdSense-Safe)
     const keywordMap = [
-      { words: ['sarkari result'], link: '/' },
+      { words: ['sarkari result', 'sarakari result', 'sarkariresult', 'sarakariresult'], link: '/' },
       { words: ['latest jobs'], link: '/latest-jobs' },
       { words: ['admit card'], link: '/admit-cards' },
       { words: ['result 2026'], link: '/result' }
