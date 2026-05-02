@@ -192,7 +192,7 @@ Bad: "SSC CGL 2026"
 
 -SEQUENTIAL OUTPUT RULE (MANDATORY): > 1. You must output BLOCK 1 (The Full HTML) entirely on its own first.
 
-2. You must finish the HTML with the specific marker: ``.
+2. You must finish the HTML with the specific marker: .
 
 3. After the marker, STOP immediately. Do not provide the Title, Description, or Keywords yet.
 
