@@ -6,6 +6,10 @@ export default function robots() {
         allow: '/',
       },
       {
+        userAgent: 'Mediapartners-Google',
+        allow: '/',
+      },
+      {
         userAgent: 'Googlebot',
         allow: '/',
       },

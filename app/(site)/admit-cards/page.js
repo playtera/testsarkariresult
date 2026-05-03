@@ -4,11 +4,15 @@ import * as cheerio from 'cheerio';
 import dbConnect from '@/lib/db';
 import SiteCache from '@/models/SiteCache';
 import CategoryPageClientUI from '@/components/CategoryPageClientUI';
+import AdmitCardsSEO from '@/components/AdmitCardsSEO';
 
 
 export const metadata = {
-  title: 'Admit Cards 2026 | SarkariResultCorner',
-  description: 'Download the latest Admit Cards and Exam Call Letters for government exams in 2026.',
+  title: 'Latest Admit Cards 2026 - Exam Hall Tickets & Call Letters | SarkariResultCorner',
+  description: 'Download latest government exam Admit Cards 2026, Hall Tickets, and Call Letters for SSC, UPSC, RRB, IBPS, and State Exams at SarkariResultCorner.com.',
+  alternates: {
+    canonical: 'https://sarkariresultcorner.com/admit-cards',
+  }
 };
 
 export default async function AdmitCardsPage() {
@@ -25,7 +29,7 @@ export default async function AdmitCardsPage() {
 
     if (cachedEntry && cachedEntry.lastScrapedAt > sixHoursAgo) {
       console.log(`[PAGE CACHE HIT] ${cacheKey}`);
-      return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={cachedEntry.data.items} />;
+      return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={cachedEntry.data.items} seoContent={<AdmitCardsSEO />} />;
     }
 
     console.log(`[PAGE CACHE MISS] ${cacheKey} - Syncing...`);
@@ -130,24 +134,22 @@ export default async function AdmitCardsPage() {
               { upsert: true, returnDocument: 'after' }
           );
       }
-    } else if (cachedEntry) {
-         console.log(`[PAGE CACHE FALLBACK] ${cacheKey}`);
-         return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={cachedEntry.data.items} />;
-    }
+     } else if (cachedEntry) {
+          console.log(`[PAGE CACHE FALLBACK] ${cacheKey}`);
+          return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={cachedEntry.data.items} seoContent={<AdmitCardsSEO />} />;
+     }
   } catch (err) {
     console.error(err);
     // CRITICAL FALLBACK IF FETCH FAILS BADLY
     try {
         const fallbackKey = 'page_' + sourceUrl.split('/').filter(Boolean).pop();
         const cachedEntry = await SiteCache.findOne({ key: fallbackKey });
-        if (cachedEntry) {
-             console.log(`[PAGE CACHE ERROR FALLBACK] ${fallbackKey}`);
-             return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={cachedEntry.data.items} />;
-        }
+         if (cachedEntry) {
+              console.log(`[PAGE CACHE ERROR FALLBACK] ${fallbackKey}`);
+              return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={cachedEntry.data.items} seoContent={<AdmitCardsSEO />} />;
+         }
     } catch(e) {}
   }
 
-  return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={items} />;
+   return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={items} seoContent={<AdmitCardsSEO />} />;
 }
-
-

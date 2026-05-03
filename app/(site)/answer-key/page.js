@@ -4,11 +4,15 @@ import * as cheerio from 'cheerio';
 import dbConnect from '@/lib/db';
 import SiteCache from '@/models/SiteCache';
 import CategoryPageClientUI from '@/components/CategoryPageClientUI';
+import AnswerKeySEO from '@/components/AnswerKeySEO';
 
 
 export const metadata = {
-  title: 'Answer Keys 2026 | SarkariResultCorner',
-  description: 'Download the official answer keys, question papers, and solutions for 2026 exams.',
+  title: 'Official Answer Keys 2026 - Question Papers & Solutions | SarkariResultCorner',
+  description: 'Download official Exam Answer Keys 2026, Response Sheets, and Question Papers with solutions for SSC, RRB, Banking, and State Govt Exams at SarkariResultCorner.com.',
+  alternates: {
+    canonical: 'https://sarkariresultcorner.com/answer-key',
+  }
 };
 
 export default async function AnswerKeyPage() {
@@ -25,7 +29,7 @@ export default async function AnswerKeyPage() {
 
     if (cachedEntry && cachedEntry.lastScrapedAt > sixHoursAgo) {
       console.log(`[PAGE CACHE HIT] ${cacheKey}`);
-      return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download official answer keys and response sheets." items={cachedEntry.data.items} />;
+      return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download official answer keys and response sheets." items={cachedEntry.data.items} seoContent={<AnswerKeySEO />} />;
     }
 
     console.log(`[PAGE CACHE MISS] ${cacheKey} - Syncing...`);
@@ -132,7 +136,7 @@ export default async function AnswerKeyPage() {
       }
     } else if (cachedEntry) {
          console.log(`[PAGE CACHE FALLBACK] ${cacheKey}`);
-         return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download official answer keys and response sheets." items={cachedEntry.data.items} />;
+         return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download official answer keys and response sheets." items={cachedEntry.data.items} seoContent={<AnswerKeySEO />} />;
     }
   } catch (err) {
     console.error(err);
@@ -142,12 +146,10 @@ export default async function AnswerKeyPage() {
         const cachedEntry = await SiteCache.findOne({ key: fallbackKey });
         if (cachedEntry) {
              console.log(`[PAGE CACHE ERROR FALLBACK] ${fallbackKey}`);
-             return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download official answer keys and response sheets." items={cachedEntry.data.items} />;
+             return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download official answer keys and response sheets." items={cachedEntry.data.items} seoContent={<AnswerKeySEO />} />;
         }
     } catch(e) {}
   }
 
-  return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Download official answer keys and response sheets." items={items} />;
+  return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Download official answer keys and response sheets." items={items} seoContent={<AnswerKeySEO />} />;
 }
-
-

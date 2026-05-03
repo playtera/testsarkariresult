@@ -87,6 +87,12 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png" />
         <link rel="manifest" href="/favicon_io/site.webmanifest" />
+        {/* AdSense Verification Script - Placed in head for approval */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2635309868525139"
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body className={inter.className}>
         {children}

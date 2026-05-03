@@ -1,6 +1,5 @@
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import AdSenseLoader from '../../components/AdSenseLoader';
 
 export default function SiteLayout({ children }) {
   // WebSite schema with SearchAction
@@ -67,7 +66,6 @@ export default function SiteLayout({ children }) {
         {children}
       </main>
       <Footer />
-      <AdSenseLoader />
     </>
   );
 }
