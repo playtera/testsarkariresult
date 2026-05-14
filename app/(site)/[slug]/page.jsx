@@ -6,6 +6,7 @@ import Image from 'next/image'
 import PrintButton from '../../../components/PrintButton'
 import * as cheerio from 'cheerio'
 import { connection } from 'next/server'
+import { notFound } from 'next/navigation'
 
 // GEO: Generate dynamic FAQPage schema for every post (+40% search visibility)
 // Uses Princeton GEO method: Statistics + Authoritative Tone + Answer-First format
@@ -93,6 +94,10 @@ export async function generateMetadata({ params }) {
         title: `${titleFromSlug} - SarkariResultCorner | Vacancy, Eligibility & Result Details`,
         description: `Sarkari Result Corner: Get latest ${titleFromSlug} updates, vacancy details, eligibility, and direct application links.`,
         images: [shareImage],
+      },
+      robots: {
+        index: false,
+        follow: false,
       }
     }
   } catch (e) {
@@ -337,7 +342,7 @@ export default async function PostPage({ params }) {
   }
 
   // 1. TRY TO FETCH FROM SANITY (Priority 1)
-  const query = `*[_type == "post" && slug.current == $slug][0]`
+  const query = `*[_type == "post" && lower(slug.current) == lower($slug)][0]`
   let post = await client.fetch(query, { slug })
 
   // 2. FALLBACK TO SCRAPED DATA (Cached)
@@ -358,15 +363,9 @@ export default async function PostPage({ params }) {
   // 8 trending links for the bottom
   const trendingLinks = availableLinks.sort(() => 0.5 - Math.random()).slice(0, 8);
 
-  if (!post) return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', color: '#000', padding: '20px', textAlign: 'center' }}>
-      <div>
-        <h1 style={{ color: '#FF0000' }}>Post Not Found</h1>
-        <p>This notification might have been removed or has not been published yet.</p>
-        <a href="/" style={{ color: '#00F', fontWeight: 'bold', textDecoration: 'underline' }}>Go to Homepage</a>
-      </div>
-    </div>
-  )
+  if (!post) {
+    notFound();
+  }
 
   // Transform HTML body to add smart layout classes and inject internal links
   if (post.htmlBody) {
